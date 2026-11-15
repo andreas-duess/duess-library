@@ -66,9 +66,12 @@ function render() {
       s.className = `spine ${look.font} ${look.deco}${b.de ? " de" : ""}`;
       s.style.cssText = `--w:${look.w}px;--h:${look.h}px;--c:${look.c};--t:${look.t};--fs:${look.fs}px`;
       s.setAttribute("aria-label", b.author ? `${b.title} by ${b.author}` : b.title);
-      s.title = b.title;
       s.append(spineInner(b));
-      s.addEventListener("click", () => openBook(b, s));
+      s.addEventListener("click", () => { hideTip(); openBook(b, s); });
+      s.addEventListener("mouseenter", () => showTip(b, s));
+      s.addEventListener("mouseleave", hideTip);
+      s.addEventListener("focus", () => s.matches(":focus-visible") && showTip(b, s));
+      s.addEventListener("blur", hideTip);
       b.el = s;
       slot.append(s);
       rows.append(slot);
@@ -77,6 +80,33 @@ function render() {
     shelves.append(shelf);
   }
 }
+
+// The small panel above a spine on hover or keyboard focus: title, author, year and section.
+const tip = $("#tip");
+function showTip(b, el) {
+  if (open || !matchMedia("(hover: hover)").matches && !el.matches(":focus-visible")) return;
+  tip.querySelector(".tip-title").textContent = b.title;
+  tip.querySelector(".tip-author").textContent = b.author || "";
+  tip.querySelector(".tip-meta").textContent = [b.year, b.section].filter(Boolean).join(" · ");
+  tip.hidden = false;
+  const r = el.getBoundingClientRect(), t = tip.getBoundingClientRect();
+  const lift = 8; // the spine rises on hover
+  const cx = r.left + r.width / 2;
+  const left = Math.min(Math.max(12, cx - t.width / 2), innerWidth - t.width - 12);
+  const below = r.top - lift - t.height - 12 < 8;
+  const top = below ? r.bottom + 12 : r.top - lift - t.height - 12;
+  tip.classList.toggle("below", below);
+  tip.style.setProperty("--ax", `${cx - left}px`);
+  tip.style.transform = "";
+  tip.style.left = `${left}px`;
+  tip.style.top = `${top}px`;
+  requestAnimationFrame(() => tip.classList.add("show"));
+}
+function hideTip() {
+  tip.classList.remove("show");
+  tip.hidden = true;
+}
+addEventListener("scroll", hideTip, { passive: true });
 
 // Where the cover and the note go, for the current window size.
 function layout(b) {
