@@ -30,7 +30,7 @@ h1 { margin: 0; font: 400 clamp(44px, 6vw, 68px)/1 var(--serif); letter-spacing:
 #sections a:hover, #sections a:focus-visible { outline: none; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 
 /* search and the recommend button */
-.tools { display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0 auto 26px; }
+.tools { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 28px auto 30px; }
 .search { position: relative; width: min(360px, 100%); }
 .search-icon { position: absolute; left: 14px; top: 50%; margin-top: -9px; color: var(--muted); pointer-events: none; }
 #q {

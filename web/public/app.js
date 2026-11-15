@@ -276,7 +276,6 @@ function render() {
 
   shelves.innerHTML = "";
   $("#sections").innerHTML = "";
-  $("#count").textContent = `${books.length}`;
   rows.forEach((r, ri) => {
     const el = document.createElement("div");
     el.className = "shelfrow";
