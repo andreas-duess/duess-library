@@ -4,1553 +4,1775 @@
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "A Modern Way to Eat",
-  "author": "Anna Jones"
+  "author": "Anna Jones",
+  "de": false
  },
  {
   "id": "B291",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Batch",
-  "author": "Joel MacCharles; Dana Harrison"
+  "author": "Joel MacCharles; Dana Harrison",
+  "de": false
  },
  {
   "id": "B250",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Bread Recipes",
-  "author": "Better Homes & Gardens"
+  "author": "Better Homes & Gardens",
+  "de": false
  },
  {
   "id": "B290",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Canal House Cooks Every Day",
-  "author": "Melissa Hamilton; Christopher Hirsheimer"
+  "author": "Melissa Hamilton; Christopher Hirsheimer",
+  "de": false
  },
  {
   "id": "B240",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Classic French Recipes",
-  "author": "Ginette Mathiot"
+  "author": "Ginette Mathiot",
+  "de": false
  },
  {
   "id": "B238",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Cook This Book",
-  "author": "Molly Baz"
+  "author": "Molly Baz",
+  "de": false
  },
  {
   "id": "B244",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Dinner",
-  "author": "Melissa Clark"
+  "author": "Melissa Clark",
+  "de": false
  },
  {
   "id": "B248",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Dinner in an Instant",
-  "author": "Melissa Clark"
+  "author": "Melissa Clark",
+  "de": false
  },
  {
   "id": "B276",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Eaten, No. 5, Spring/Summer 2019",
-  "author": ""
+  "author": "",
+  "de": false
  },
  {
   "id": "B249",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "From the Oven to the Table",
-  "author": "Diana Henry"
+  "author": "Diana Henry",
+  "de": false
  },
  {
   "id": "B289",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Genius Recipes",
-  "author": "Kristen Miglore"
+  "author": "Kristen Miglore",
+  "de": false
  },
  {
   "id": "B292",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Gordon Ramsay: Kitchen Heaven",
-  "author": "Gordon Ramsay"
+  "author": "Gordon Ramsay",
+  "de": false
  },
  {
   "id": "B261",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Healing Mushrooms",
-  "author": "Tero Isokauppila"
+  "author": "Tero Isokauppila",
+  "de": false
  },
  {
   "id": "B055",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Heat",
-  "author": "Bill Buford"
+  "author": "Bill Buford",
+  "de": false
  },
  {
   "id": "B245",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Home Made",
-  "author": "Yvette van Boven"
+  "author": "Yvette van Boven",
+  "de": false
  },
  {
   "id": "B192",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Homebrewed Vinegar",
-  "author": "Kirsten K. Shockey"
+  "author": "Kirsten K. Shockey",
+  "de": false
  },
  {
   "id": "B297",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Indian(-ish)",
-  "author": "Priya Krishna"
+  "author": "Priya Krishna",
+  "de": false
  },
  {
   "id": "B015",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Lemons",
-  "author": "Gennaro Contaldo"
+  "author": "Gennaro Contaldo",
+  "de": false
  },
  {
   "id": "B242",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Lucky Peach: 101 Easy Asian Recipes",
-  "author": "Peter Meehan; the editors of Lucky Peach"
+  "author": "Peter Meehan; the editors of Lucky Peach",
+  "de": false
  },
  {
   "id": "B293",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "My Bombay Kitchen",
-  "author": "Niloufer Ichaporia King"
+  "author": "Niloufer Ichaporia King",
+  "de": false
  },
  {
   "id": "B241",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Simple",
-  "author": "Yotam Ottolenghi"
+  "author": "Yotam Ottolenghi",
+  "de": false
  },
  {
   "id": "B239",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Soups, Salads, Sandwiches",
-  "author": "Matty Matheson"
+  "author": "Matty Matheson",
+  "de": false
  },
  {
   "id": "B286",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "Speaking in Cod Tongues",
-  "author": "Lenore Newman"
+  "author": "Lenore Newman",
+  "de": false
  },
  {
   "id": "B227",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "The Bread Baker's Apprentice",
-  "author": "Peter Reinhart"
+  "author": "Peter Reinhart",
+  "de": false
  },
  {
   "id": "B294",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "The Cooking of the Eastern Mediterranean",
-  "author": "Paula Wolfert"
+  "author": "Paula Wolfert",
+  "de": false
  },
  {
   "id": "B298",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "The Hot Bread Kitchen Cookbook",
-  "author": "Jessamyn Waldman Rodriguez"
+  "author": "Jessamyn Waldman Rodriguez",
+  "de": false
  },
  {
   "id": "B107",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "The New Sotheby's Wine Encyclopedia",
-  "author": "Tom Stevenson"
+  "author": "Tom Stevenson",
+  "de": false
  },
  {
   "id": "B246",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "The New York Times Cooking: No-Recipe Recipes",
-  "author": "Sam Sifton"
+  "author": "Sam Sifton",
+  "de": false
  },
  {
   "id": "B247",
   "group": "Cooking & Food",
   "section": "Cooking & Food",
   "title": "The Wurst! The Very Best of German Food",
-  "author": "Otto Wolff"
+  "author": "Otto Wolff",
+  "de": false
  },
  {
   "id": "B258",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "419",
-  "author": "Will Ferguson"
+  "author": "Will Ferguson",
+  "de": false
  },
  {
   "id": "B320",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "A Recipe for Bees",
-  "author": "Gail Anderson-Dargatz"
+  "author": "Gail Anderson-Dargatz",
+  "de": false
  },
  {
   "id": "B216",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "A Sentimental Journey Through France and Italy",
-  "author": "Laurence Sterne"
+  "author": "Laurence Sterne",
+  "de": false
  },
  {
   "id": "B327",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "A Song of Stone",
-  "author": "Iain Banks"
+  "author": "Iain Banks",
+  "de": false
  },
  {
   "id": "B021",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Accordion Crimes",
-  "author": "E. Annie Proulx"
+  "author": "E. Annie Proulx",
+  "de": false
  },
  {
   "id": "B072",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Am Hang",
-  "author": "Markus Werner"
+  "author": "Markus Werner",
+  "de": true
  },
  {
   "id": "B281",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Brick Lane",
-  "author": "Monica Ali"
+  "author": "Monica Ali",
+  "de": false
  },
  {
   "id": "B035",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Catch-22",
-  "author": "Joseph Heller"
+  "author": "Joseph Heller",
+  "de": false
  },
  {
   "id": "B145",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Dead Air",
-  "author": "Iain Banks"
+  "author": "Iain Banks",
+  "de": false
  },
  {
   "id": "B306",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Dead Souls",
-  "author": "Nikolai Gogol"
+  "author": "Nikolai Gogol",
+  "de": false
  },
  {
   "id": "B078",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Der Coup von Berdac",
-  "author": "Michael Roes"
+  "author": "Michael Roes",
+  "de": true
  },
  {
   "id": "B257",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Ein Sommer in Niendorf",
-  "author": "Heinz Strunk"
+  "author": "Heinz Strunk",
+  "de": true
  },
  {
   "id": "B229",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "First Person Singular",
-  "author": "Haruki Murakami"
+  "author": "Haruki Murakami",
+  "de": false
  },
  {
   "id": "B005",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Habitus",
-  "author": "James Flint"
+  "author": "James Flint",
+  "de": false
  },
  {
   "id": "B086",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Heimatmuseum",
-  "author": "Siegfried Lenz"
+  "author": "Siegfried Lenz",
+  "de": true
  },
  {
   "id": "B083",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Herr Lehmann",
-  "author": "Sven Regener"
+  "author": "Sven Regener",
+  "de": true
  },
  {
   "id": "B132",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "High Fidelity",
-  "author": "Nick Hornby"
+  "author": "Nick Hornby",
+  "de": false
  },
  {
   "id": "B126",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "How to Be Good",
-  "author": "Nick Hornby"
+  "author": "Nick Hornby",
+  "de": false
  },
  {
   "id": "B024",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Jesus' Son",
-  "author": "Denis Johnson"
+  "author": "Denis Johnson",
+  "de": true
  },
  {
   "id": "B256",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Jim the Boy",
-  "author": "Tony Earley"
+  "author": "Tony Earley",
+  "de": false
  },
  {
   "id": "B315",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Kay's Lucky Coin Variety",
-  "author": "Ann Y. K. Choi"
+  "author": "Ann Y. K. Choi",
+  "de": false
  },
  {
   "id": "B158",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Kicking the Sky",
-  "author": "Anthony de Sa"
+  "author": "Anthony de Sa",
+  "de": false
  },
  {
   "id": "B193",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Mao II",
-  "author": "Don DeLillo"
+  "author": "Don DeLillo",
+  "de": false
  },
  {
   "id": "B082",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Neue Vahr Süd",
-  "author": "Sven Regener"
+  "author": "Sven Regener",
+  "de": true
  },
  {
   "id": "B130",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Selected Poems",
-  "author": "E. E. Cummings"
+  "author": "E. E. Cummings",
+  "de": false
  },
  {
   "id": "B027",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Shampoo Planet",
-  "author": "Douglas Coupland"
+  "author": "Douglas Coupland",
+  "de": false
  },
  {
   "id": "B231",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Surfacing",
-  "author": "Margaret Atwood"
+  "author": "Margaret Atwood",
+  "de": false
  },
  {
   "id": "B091",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Sämtliche Werke",
-  "author": "Nikolai Gogol"
+  "author": "Nikolai Gogol",
+  "de": true
  },
  {
   "id": "B054",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "The Bedroom Secrets of the Master Chefs",
-  "author": "Irvine Welsh"
+  "author": "Irvine Welsh",
+  "de": false
  },
  {
   "id": "B147",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "The Business",
-  "author": "Iain Banks"
+  "author": "Iain Banks",
+  "de": false
  },
  {
   "id": "B146",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "The Crow Road",
-  "author": "Iain Banks"
+  "author": "Iain Banks",
+  "de": false
  },
  {
   "id": "B312",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "The Innocent",
-  "author": "Ian McEwan"
+  "author": "Ian McEwan",
+  "de": false
  },
  {
   "id": "B274",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "The Kite Runner",
-  "author": "Khaled Hosseini"
+  "author": "Khaled Hosseini",
+  "de": false
  },
  {
   "id": "B134",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "The Lovely Bones",
-  "author": "Alice Sebold"
+  "author": "Alice Sebold",
+  "de": false
  },
  {
   "id": "B319",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "The Master and Margarita",
-  "author": "Mikhail Bulgakov"
+  "author": "Mikhail Bulgakov",
+  "de": false
  },
  {
   "id": "B029",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "The Mysterious Flame of Queen Loana",
-  "author": "Umberto Eco"
+  "author": "Umberto Eco",
+  "de": false
  },
  {
   "id": "B093",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "The Pickwick Papers",
-  "author": "Charles Dickens"
+  "author": "Charles Dickens",
+  "de": false
  },
  {
   "id": "B119",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "The Secret Agent",
-  "author": "Joseph Conrad"
+  "author": "Joseph Conrad",
+  "de": false
  },
  {
   "id": "B307",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "The Shipping News",
-  "author": "E. Annie Proulx"
+  "author": "E. Annie Proulx",
+  "de": false
  },
  {
   "id": "B061",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "The Short Stories of Ernest Hemingway",
-  "author": "Ernest Hemingway"
+  "author": "Ernest Hemingway",
+  "de": false
  },
  {
   "id": "B060",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "The Time Traveler's Wife",
-  "author": "Audrey Niffenegger"
+  "author": "Audrey Niffenegger",
+  "de": false
  },
  {
   "id": "B063",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "The Wind-Up Bird Chronicle",
-  "author": "Haruki Murakami"
+  "author": "Haruki Murakami",
+  "de": false
  },
  {
   "id": "B182",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "Through Black Spruce",
-  "author": "Joseph Boyden"
+  "author": "Joseph Boyden",
+  "de": false
  },
  {
   "id": "B133",
   "group": "Fiction",
   "section": "Literary Fiction & Poetry",
   "title": "White Teeth",
-  "author": "Zadie Smith"
+  "author": "Zadie Smith",
+  "de": false
  },
  {
   "id": "B295",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Bad Monkey",
-  "author": "Carl Hiaasen"
+  "author": "Carl Hiaasen",
+  "de": false
  },
  {
   "id": "B233",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Berlin Game",
-  "author": "Len Deighton"
+  "author": "Len Deighton",
+  "de": false
  },
  {
   "id": "B170",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Bleeding Hearts",
-  "author": "Ian Rankin"
+  "author": "Ian Rankin",
+  "de": false
  },
  {
   "id": "B140",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Casino Royale",
-  "author": "Ian Fleming"
+  "author": "Ian Fleming",
+  "de": false
  },
  {
   "id": "B264",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Clown Town",
-  "author": "Mick Herron"
+  "author": "Mick Herron",
+  "de": false
  },
  {
   "id": "B318",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Country of the Blind",
-  "author": "Christopher Brookmyre"
+  "author": "Christopher Brookmyre",
+  "de": false
  },
  {
   "id": "B102",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Das Russlandhaus",
-  "author": "John le Carré"
+  "author": "John le Carré",
+  "de": true
  },
  {
   "id": "B043",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Death and the Oxford Box",
-  "author": "Veronica Stallwood"
+  "author": "Veronica Stallwood",
+  "de": false
  },
  {
   "id": "B103",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Der Sommermörder",
-  "author": "Nicci French"
+  "author": "Nicci French",
+  "de": true
  },
  {
   "id": "B275",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Faceless Killers",
-  "author": "Henning Mankell"
+  "author": "Henning Mankell",
+  "de": false
  },
  {
   "id": "B201",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Final Orbit",
-  "author": "Chris Hadfield"
+  "author": "Chris Hadfield",
+  "de": false
  },
  {
   "id": "B308",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Firewall",
-  "author": "Henning Mankell"
+  "author": "Henning Mankell",
+  "de": false
  },
  {
   "id": "B181",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "From Russia with Love",
-  "author": "Ian Fleming"
+  "author": "Ian Fleming",
+  "de": false
  },
  {
   "id": "B230",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "House of Correction",
-  "author": "Nicci French"
+  "author": "Nicci French",
+  "de": false
  },
  {
   "id": "B117",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Inferno",
-  "author": "Dan Brown"
+  "author": "Dan Brown",
+  "de": false
  },
  {
   "id": "B254",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "LaBrava",
-  "author": "Elmore Leonard"
+  "author": "Elmore Leonard",
+  "de": false
  },
  {
   "id": "B142",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Lucky You",
-  "author": "Carl Hiaasen"
+  "author": "Carl Hiaasen",
+  "de": false
  },
  {
   "id": "B143",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Never End",
-  "author": "Åke Edwardson"
+  "author": "Åke Edwardson",
+  "de": false
  },
  {
   "id": "B044",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "One Fine Day in the Middle of the Night",
-  "author": "Christopher Brookmyre"
+  "author": "Christopher Brookmyre",
+  "de": false
  },
  {
   "id": "B311",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Quite Ugly One Morning",
-  "author": "Christopher Brookmyre"
+  "author": "Christopher Brookmyre",
+  "de": false
  },
  {
   "id": "B263",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Reamde",
-  "author": "Neal Stephenson"
+  "author": "Neal Stephenson",
+  "de": false
  },
  {
   "id": "B165",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Restless",
-  "author": "William Boyd"
+  "author": "William Boyd",
+  "de": false
  },
  {
   "id": "B252",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Road Dogs",
-  "author": "Elmore Leonard"
+  "author": "Elmore Leonard",
+  "de": false
  },
  {
   "id": "B139",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Skinny Dip",
-  "author": "Carl Hiaasen"
+  "author": "Carl Hiaasen",
+  "de": false
  },
  {
   "id": "B228",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Slow Horses",
-  "author": "Mick Herron"
+  "author": "Mick Herron",
+  "de": false
  },
  {
   "id": "B169",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Strandkorbkrimis",
-  "author": ""
+  "author": "",
+  "de": true
  },
  {
   "id": "B309",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Tears of the Giraffe",
-  "author": "Alexander McCall Smith"
+  "author": "Alexander McCall Smith",
+  "de": false
  },
  {
   "id": "B050",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "The Blood of Angels",
-  "author": "Michael Marshall"
+  "author": "Michael Marshall",
+  "de": false
  },
  {
   "id": "B237",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "The Department of Rare Books and Special Collections",
-  "author": "Eva Jurczyk"
+  "author": "Eva Jurczyk",
+  "de": false
  },
  {
   "id": "B046",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "The Devil's Feather",
-  "author": "Minette Walters"
+  "author": "Minette Walters",
+  "de": false
  },
  {
   "id": "B219",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "The Ethical Assassin",
-  "author": "David Liss"
+  "author": "David Liss",
+  "de": false
  },
  {
   "id": "B067",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "The Full Cupboard of Life",
-  "author": "Alexander McCall Smith"
+  "author": "Alexander McCall Smith",
+  "de": false
  },
  {
   "id": "B255",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "The Get",
-  "author": "Dietrich Kalteis"
+  "author": "Dietrich Kalteis",
+  "de": false
  },
  {
   "id": "B009",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "The Girl Who Played with Fire",
-  "author": "Stieg Larsson"
+  "author": "Stieg Larsson",
+  "de": false
  },
  {
   "id": "B010",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "The Girl with the Dragon Tattoo",
-  "author": "Stieg Larsson"
+  "author": "Stieg Larsson",
+  "de": false
  },
  {
   "id": "B224",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "The Impossible Fortune",
-  "author": "Richard Osman"
+  "author": "Richard Osman",
+  "de": false
  },
  {
   "id": "B092",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "The Return of Sherlock Holmes",
-  "author": "Arthur Conan Doyle"
+  "author": "Arthur Conan Doyle",
+  "de": false
  },
  {
   "id": "B056",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "The Sacred Art of Stealing",
-  "author": "Christopher Brookmyre"
+  "author": "Christopher Brookmyre",
+  "de": false
  },
  {
   "id": "B271",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "The Snowman",
-  "author": "Jo Nesbø"
+  "author": "Jo Nesbø",
+  "de": false
  },
  {
   "id": "B217",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Three Bags Full",
-  "author": "Leonie Swann"
+  "author": "Leonie Swann",
+  "de": false
  },
  {
   "id": "B235",
   "group": "Fiction",
   "section": "Crime & Thriller",
   "title": "Tokyo Express",
-  "author": "Seichō Matsumoto"
+  "author": "Seichō Matsumoto",
+  "de": false
  },
  {
   "id": "B313",
   "group": "Fiction",
   "section": "Science Fiction",
   "title": "All Tomorrow's Parties",
-  "author": "William Gibson"
+  "author": "William Gibson",
+  "de": false
  },
  {
   "id": "B125",
   "group": "Fiction",
   "section": "Science Fiction",
   "title": "Consider Phlebas",
-  "author": "Iain M. Banks"
+  "author": "Iain M. Banks",
+  "de": false
  },
  {
   "id": "B277",
   "group": "Fiction",
   "section": "Science Fiction",
   "title": "Douglas Adams's Starship Titanic",
-  "author": "Terry Jones"
+  "author": "Terry Jones",
+  "de": false
  },
  {
   "id": "B310",
   "group": "Fiction",
   "section": "Science Fiction",
   "title": "Feersum Endjinn",
-  "author": "Iain M. Banks"
+  "author": "Iain M. Banks",
+  "de": false
  },
  {
   "id": "B026",
   "group": "Fiction",
   "section": "Science Fiction",
   "title": "Hyperion",
-  "author": "Dan Simmons"
+  "author": "Dan Simmons",
+  "de": false
  },
  {
   "id": "B150",
   "group": "Fiction",
   "section": "Science Fiction",
   "title": "Pattern Recognition",
-  "author": "William Gibson"
+  "author": "William Gibson",
+  "de": false
  },
  {
   "id": "B305",
   "group": "Fiction",
   "section": "Science Fiction",
   "title": "Pollen",
-  "author": "Jeff Noon"
+  "author": "Jeff Noon",
+  "de": false
  },
  {
   "id": "B040",
   "group": "Fiction",
   "section": "Science Fiction",
   "title": "Snow Crash",
-  "author": "Neal Stephenson"
+  "author": "Neal Stephenson",
+  "de": false
  },
  {
   "id": "B032",
   "group": "Fiction",
   "section": "Science Fiction",
   "title": "The Algebraist",
-  "author": "Iain M. Banks"
+  "author": "Iain M. Banks",
+  "de": false
  },
  {
   "id": "B113",
   "group": "Fiction",
   "section": "Science Fiction",
   "title": "The Hydrogen Sonata",
-  "author": "Iain M. Banks"
+  "author": "Iain M. Banks",
+  "de": false
  },
  {
   "id": "B321",
   "group": "Fiction",
   "section": "Science Fiction",
   "title": "Use of Weapons",
-  "author": "Iain M. Banks"
+  "author": "Iain M. Banks",
+  "de": false
  },
  {
   "id": "B033",
   "group": "Fiction",
   "section": "Science Fiction",
   "title": "Virtual Light",
-  "author": "William Gibson"
+  "author": "William Gibson",
+  "de": false
  },
  {
   "id": "B314",
   "group": "Fiction",
   "section": "Fantasy & Horror",
   "title": "A Dirty Job",
-  "author": "Christopher Moore"
+  "author": "Christopher Moore",
+  "de": false
  },
  {
   "id": "B324",
   "group": "Fiction",
   "section": "Fantasy & Horror",
   "title": "Fool",
-  "author": "Christopher Moore"
+  "author": "Christopher Moore",
+  "de": false
  },
  {
   "id": "B030",
   "group": "Fiction",
   "section": "Fantasy & Horror",
   "title": "Good Omens",
-  "author": "Terry Pratchett; Neil Gaiman"
+  "author": "Terry Pratchett; Neil Gaiman",
+  "de": false
  },
  {
   "id": "B265",
   "group": "Fiction",
   "section": "Fantasy & Horror",
   "title": "Heroes",
-  "author": "Stephen Fry"
+  "author": "Stephen Fry",
+  "de": false
  },
  {
   "id": "B259",
   "group": "Fiction",
   "section": "Fantasy & Horror",
   "title": "Mexican Gothic",
-  "author": "Silvia Moreno-Garcia"
+  "author": "Silvia Moreno-Garcia",
+  "de": false
  },
  {
   "id": "B301",
   "group": "Fiction",
   "section": "Fantasy & Horror",
   "title": "Necrophenia",
-  "author": "Robert Rankin"
+  "author": "Robert Rankin",
+  "de": false
  },
  {
   "id": "B094",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "Schattenschwester",
-  "author": "Lucinda Riley"
+  "author": "Lucinda Riley",
+  "de": true
  },
  {
   "id": "B068",
   "group": "Fiction",
   "section": "Fantasy & Horror",
   "title": "Tailchaser's Song",
-  "author": "Tad Williams"
+  "author": "Tad Williams",
+  "de": false
  },
  {
   "id": "B218",
   "group": "Fiction",
   "section": "Fantasy & Horror",
   "title": "The City of Brass",
-  "author": "S. A. Chakraborty"
+  "author": "S. A. Chakraborty",
+  "de": false
  },
  {
   "id": "B232",
   "group": "Fiction",
   "section": "Fantasy & Horror",
   "title": "The Lord of the Rings",
-  "author": "J. R. R. Tolkien"
+  "author": "J. R. R. Tolkien",
+  "de": false
  },
  {
   "id": "B326",
   "group": "Fiction",
   "section": "Fantasy & Horror",
   "title": "The Return of the King",
-  "author": "J. R. R. Tolkien"
+  "author": "J. R. R. Tolkien",
+  "de": false
  },
  {
   "id": "B058",
   "group": "Fiction",
   "section": "Fantasy & Horror",
   "title": "The Truth",
-  "author": "Terry Pratchett"
+  "author": "Terry Pratchett",
+  "de": false
  },
  {
   "id": "B039",
   "group": "Fiction",
   "section": "Fantasy & Horror",
   "title": "Unseen Academicals",
-  "author": "Terry Pratchett"
+  "author": "Terry Pratchett",
+  "de": false
  },
  {
   "id": "B041",
   "group": "Fiction",
   "section": "Fantasy & Horror",
   "title": "Whitechapel Gods",
-  "author": "S. M. Peters"
+  "author": "S. M. Peters",
+  "de": false
  },
  {
   "id": "B115",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "All the Light We Cannot See",
-  "author": "Anthony Doerr"
+  "author": "Anthony Doerr",
+  "de": false
  },
  {
   "id": "B014",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "Baudolino",
-  "author": "Umberto Eco"
+  "author": "Umberto Eco",
+  "de": false
  },
  {
   "id": "B196",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "Birdsong",
-  "author": "Sebastian Faulks"
+  "author": "Sebastian Faulks",
+  "de": false
  },
  {
   "id": "B136",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "Canoe Lake",
-  "author": "Roy MacGregor"
+  "author": "Roy MacGregor",
+  "de": false
  },
  {
   "id": "B316",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "Conspiracy",
-  "author": "S. J. Parris"
+  "author": "S. J. Parris",
+  "de": false
  },
  {
   "id": "B073",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "Die Säulen der Erde",
-  "author": "Ken Follett"
+  "author": "Ken Follett",
+  "de": true
  },
  {
   "id": "B077",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "Dodger",
-  "author": "Terry Pratchett"
+  "author": "Terry Pratchett",
+  "de": false
  },
  {
   "id": "B236",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "Fall of Giants",
-  "author": "Ken Follett"
+  "author": "Ken Follett",
+  "de": false
  },
  {
   "id": "B322",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "Half-Blood Blues",
-  "author": "Esi Edugyan"
+  "author": "Esi Edugyan",
+  "de": false
  },
  {
   "id": "B280",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "Heartstone",
-  "author": "C. J. Sansom"
+  "author": "C. J. Sansom",
+  "de": false
  },
  {
   "id": "B070",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "Montenegro",
-  "author": "Starling Lawrence"
+  "author": "Starling Lawrence",
+  "de": false
  },
  {
   "id": "B317",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "My Name Is Red",
-  "author": "Orhan Pamuk"
+  "author": "Orhan Pamuk",
+  "de": false
  },
  {
   "id": "B220",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "Persona Non Grata",
-  "author": "Ruth Downie"
+  "author": "Ruth Downie",
+  "de": false
  },
  {
   "id": "B167",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "The Radetzky March",
-  "author": "Joseph Roth"
+  "author": "Joseph Roth",
+  "de": false
  },
  {
   "id": "B226",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "The Samurai Detective, Vol. 1",
-  "author": "Shotaro Ikenami"
+  "author": "Shotaro Ikenami",
+  "de": false
  },
  {
   "id": "B299",
   "group": "Fiction",
   "section": "Historical Fiction",
   "title": "When Christ and His Saints Slept",
-  "author": "Sharon Kay Penman"
+  "author": "Sharon Kay Penman",
+  "de": false
  },
  {
   "id": "B225",
   "group": "Fiction",
   "section": "Humour",
   "title": "Can Holding In a Fart Kill You?",
-  "author": "Andrew Thompson"
+  "author": "Andrew Thompson",
+  "de": false
  },
  {
   "id": "B101",
   "group": "Fiction",
   "section": "Humour",
   "title": "Die allerneueste klassische Sau",
-  "author": "Hermann Kinder (ed.)"
+  "author": "Hermann Kinder (ed.)",
+  "de": true
  },
  {
   "id": "B198",
   "group": "Fiction",
   "section": "Humour",
   "title": "How to Be a Canadian",
-  "author": "Will Ferguson; Ian Ferguson"
+  "author": "Will Ferguson; Ian Ferguson",
+  "de": false
  },
  {
   "id": "B019",
   "group": "Fiction",
   "section": "Humour",
   "title": "Loriots heile Welt",
-  "author": "Loriot"
+  "author": "Loriot",
+  "de": true
  },
  {
   "id": "B012",
   "group": "Fiction",
   "section": "Humour",
   "title": "Sh*t My Dad Says",
-  "author": "Justin Halpern"
+  "author": "Justin Halpern",
+  "de": false
  },
  {
   "id": "B079",
   "group": "Fiction",
   "section": "Humour",
   "title": "Wortkirmes",
-  "author": "Robert Gernhardt"
+  "author": "Robert Gernhardt",
+  "de": true
  },
  {
   "id": "B296",
   "group": "Fiction",
   "section": "Children's & YA",
   "title": "My Neighbor Totoro, Vol. 1",
-  "author": "Hayao Miyazaki"
+  "author": "Hayao Miyazaki",
+  "de": false
  },
  {
   "id": "B194",
   "group": "Fiction",
   "section": "Children's & YA",
   "title": "The Bones of Ruin",
-  "author": "Sarah Raughley"
+  "author": "Sarah Raughley",
+  "de": false
  },
  {
   "id": "B120",
   "group": "Fiction",
   "section": "Children's & YA",
   "title": "The Graveyard Book",
-  "author": "Neil Gaiman"
+  "author": "Neil Gaiman",
+  "de": false
  },
  {
   "id": "B162",
   "group": "Fiction",
   "section": "Children's & YA",
   "title": "The Little Prince",
-  "author": "Antoine de Saint-Exupéry"
+  "author": "Antoine de Saint-Exupéry",
+  "de": false
  },
  {
   "id": "B214",
   "group": "Fiction",
   "section": "Children's & YA",
   "title": "The Prairie Dog Conspiracy",
-  "author": "Eric Wilson"
+  "author": "Eric Wilson",
+  "de": false
  },
  {
   "id": "B185",
   "group": "Fiction",
   "section": "Children's & YA",
   "title": "The Sea of Monsters",
-  "author": "Rick Riordan"
+  "author": "Rick Riordan",
+  "de": false
  },
  {
   "id": "B303",
   "group": "Non-fiction",
   "section": "History & True Crime",
   "title": "Cod: A Biography of the Fish That Changed the World",
-  "author": "Mark Kurlansky"
+  "author": "Mark Kurlansky",
+  "de": false
  },
  {
   "id": "B069",
   "group": "Non-fiction",
   "section": "History & True Crime",
   "title": "Das Profil der Mörder",
-  "author": "Paul Britton"
+  "author": "Paul Britton",
+  "de": true
  },
  {
   "id": "B059",
   "group": "Non-fiction",
   "section": "History & True Crime",
   "title": "In Cold Blood",
-  "author": "Truman Capote"
+  "author": "Truman Capote",
+  "de": false
  },
  {
   "id": "B114",
   "group": "Non-fiction",
   "section": "History & True Crime",
   "title": "London: The Biography",
-  "author": "Peter Ackroyd"
+  "author": "Peter Ackroyd",
+  "de": false
  },
  {
   "id": "B210",
   "group": "Non-fiction",
   "section": "History & True Crime",
   "title": "Londoners",
-  "author": "Craig Taylor"
+  "author": "Craig Taylor",
+  "de": false
  },
  {
   "id": "B253",
   "group": "Non-fiction",
   "section": "History & True Crime",
   "title": "Midnight in the Garden of Good and Evil",
-  "author": "John Berendt"
+  "author": "John Berendt",
+  "de": false
  },
  {
   "id": "B267",
   "group": "Non-fiction",
   "section": "History & True Crime",
   "title": "SPQR: A History of Ancient Rome",
-  "author": "Mary Beard"
+  "author": "Mary Beard",
+  "de": false
  },
  {
   "id": "B191",
   "group": "Non-fiction",
   "section": "History & True Crime",
   "title": "The Farfarers",
-  "author": "Farley Mowat"
+  "author": "Farley Mowat",
+  "de": false
  },
  {
   "id": "B262",
   "group": "Non-fiction",
   "section": "History & True Crime",
   "title": "The Just",
-  "author": "Jan Brokken"
+  "author": "Jan Brokken",
+  "de": false
  },
  {
   "id": "B270",
   "group": "Non-fiction",
   "section": "History & True Crime",
   "title": "Wayward Lives, Beautiful Experiments: Intimate Histories of Social Upheaval",
-  "author": "Saidiya Hartman"
+  "author": "Saidiya Hartman",
+  "de": false
  },
  {
   "id": "B204",
   "group": "Non-fiction",
   "section": "History & True Crime",
   "title": "Yesterday's Toronto",
-  "author": "Linda Shapiro (ed.)"
+  "author": "Linda Shapiro (ed.)",
+  "de": false
  },
  {
   "id": "B174",
   "group": "Non-fiction",
   "section": "Travel & Places",
   "title": "A Serious Ocean",
-  "author": "John Kretschmer"
+  "author": "John Kretschmer",
+  "de": false
  },
  {
   "id": "B278",
   "group": "Non-fiction",
   "section": "Travel & Places",
   "title": "A Tour on the Prairies",
-  "author": "Washington Irving"
+  "author": "Washington Irving",
+  "de": false
  },
  {
   "id": "B302",
   "group": "Non-fiction",
   "section": "Travel & Places",
   "title": "A Year in Provence",
-  "author": "Peter Mayle"
+  "author": "Peter Mayle",
+  "de": false
  },
  {
   "id": "B085",
   "group": "Non-fiction",
   "section": "Travel & Places",
   "title": "Atlas Obscura",
-  "author": "Joshua Foer; Dylan Thuras; Ella Morton"
+  "author": "Joshua Foer; Dylan Thuras; Ella Morton",
+  "de": false
  },
  {
   "id": "B190",
   "group": "Non-fiction",
   "section": "Travel & Places",
   "title": "Dispatches from Pluto",
-  "author": "Richard Grant"
+  "author": "Richard Grant",
+  "de": false
  },
  {
   "id": "B159",
   "group": "Non-fiction",
   "section": "Travel & Places",
   "title": "Germany",
-  "author": "Dorling Kindersley"
+  "author": "Dorling Kindersley",
+  "de": false
  },
  {
   "id": "B199",
   "group": "Non-fiction",
   "section": "Travel & Places",
   "title": "The Complete Notes",
-  "author": "Bill Bryson"
+  "author": "Bill Bryson",
+  "de": false
  },
  {
   "id": "B116",
   "group": "Non-fiction",
   "section": "Travel & Places",
   "title": "The Hotel Years",
-  "author": "Joseph Roth"
+  "author": "Joseph Roth",
+  "de": false
  },
  {
   "id": "B300",
   "group": "Non-fiction",
   "section": "Travel & Places",
   "title": "Travels with Charley",
-  "author": "John Steinbeck"
+  "author": "John Steinbeck",
+  "de": false
  },
  {
   "id": "B178",
   "group": "Non-fiction",
   "section": "Memoir & Biography",
   "title": "Dispatches from the Front",
-  "author": "David Halton"
+  "author": "David Halton",
+  "de": false
  },
  {
   "id": "B325",
   "group": "Non-fiction",
   "section": "Memoir & Biography",
   "title": "Far Out Isn't Far Enough",
-  "author": "Tomi Ungerer"
+  "author": "Tomi Ungerer",
+  "de": false
  },
  {
   "id": "B323",
   "group": "Non-fiction",
   "section": "Memoir & Biography",
   "title": "Into the Magic Shop",
-  "author": "James R. Doty"
+  "author": "James R. Doty",
+  "de": false
  },
  {
   "id": "B112",
   "group": "Non-fiction",
   "section": "Memoir & Biography",
   "title": "Life on Air",
-  "author": "David Attenborough"
+  "author": "David Attenborough",
+  "de": false
  },
  {
   "id": "B273",
   "group": "Non-fiction",
   "section": "Memoir & Biography",
   "title": "Me",
-  "author": "Elton John"
+  "author": "Elton John",
+  "de": false
  },
  {
   "id": "B047",
   "group": "Non-fiction",
   "section": "Memoir & Biography",
   "title": "Travels with Lizbeth",
-  "author": "Lars Eighner"
+  "author": "Lars Eighner",
+  "de": false
  },
  {
   "id": "B122",
   "group": "Non-fiction",
   "section": "Memoir & Biography",
   "title": "We Were an Island",
-  "author": "Peter P. Blanchard III"
+  "author": "Peter P. Blanchard III",
+  "de": false
  },
  {
   "id": "B123",
   "group": "Non-fiction",
   "section": "Science & Nature",
   "title": "Clean Meat",
-  "author": "Paul Shapiro"
+  "author": "Paul Shapiro",
+  "de": false
  },
  {
   "id": "B106",
   "group": "Non-fiction",
   "section": "Science & Nature",
   "title": "Das große Katzenbuch",
-  "author": ""
+  "author": "",
+  "de": true
  },
  {
   "id": "B260",
   "group": "Non-fiction",
   "section": "Science & Nature",
   "title": "Entangled Life",
-  "author": "Merlin Sheldrake"
+  "author": "Merlin Sheldrake",
+  "de": false
  },
  {
   "id": "B045",
   "group": "Non-fiction",
   "section": "Science & Nature",
   "title": "The World Without Us",
-  "author": "Alan Weisman"
+  "author": "Alan Weisman",
+  "de": false
  },
  {
   "id": "B153",
   "group": "Non-fiction",
   "section": "Science & Nature",
   "title": "You Are Here",
-  "author": "Chris Hadfield"
+  "author": "Chris Hadfield",
+  "de": false
  },
  {
   "id": "B171",
   "group": "Non-fiction",
   "section": "Ideas & Society",
   "title": "Freakonomics",
-  "author": "Steven D. Levitt; Stephen J. Dubner"
+  "author": "Steven D. Levitt; Stephen J. Dubner",
+  "de": false
  },
  {
   "id": "B154",
   "group": "Non-fiction",
   "section": "Ideas & Society",
   "title": "Spent: Sex, Evolution, and Consumer Behavior",
-  "author": "Geoffrey Miller"
+  "author": "Geoffrey Miller",
+  "de": false
  },
  {
   "id": "B007",
   "group": "Non-fiction",
   "section": "Ideas & Society",
   "title": "Stupid White Men",
-  "author": "Michael Moore"
+  "author": "Michael Moore",
+  "de": false
  },
  {
   "id": "B282",
   "group": "Non-fiction",
   "section": "Ideas & Society",
   "title": "The Collection",
-  "author": "Peter Ackroyd"
+  "author": "Peter Ackroyd",
+  "de": false
  },
  {
   "id": "B223",
   "group": "Non-fiction",
   "section": "Ideas & Society",
   "title": "The Future of Truth",
-  "author": "Werner Herzog"
+  "author": "Werner Herzog",
+  "de": false
  },
  {
   "id": "B197",
   "group": "Non-fiction",
   "section": "Ideas & Society",
   "title": "The Way of Zen",
-  "author": "Alan Watts"
+  "author": "Alan Watts",
+  "de": false
  },
  {
   "id": "B211",
   "group": "Non-fiction",
   "section": "Ideas & Society",
   "title": "Zen and the Art of Motorcycle Maintenance",
-  "author": "Robert M. Pirsig"
+  "author": "Robert M. Pirsig",
+  "de": false
  },
  {
   "id": "B269",
   "group": "Non-fiction",
   "section": "Business",
   "title": "Good to Great",
-  "author": "Jim Collins"
+  "author": "Jim Collins",
+  "de": false
  },
  {
   "id": "B121",
   "group": "Non-fiction",
   "section": "Business",
   "title": "Instant: The Story of Polaroid",
-  "author": "Christopher Bonanos"
+  "author": "Christopher Bonanos",
+  "de": false
  },
  {
   "id": "B251",
   "group": "Non-fiction",
   "section": "Business",
   "title": "Principles: Life & Work",
-  "author": "Ray Dalio"
+  "author": "Ray Dalio",
+  "de": false
  },
  {
   "id": "B288",
   "group": "Non-fiction",
   "section": "Business",
   "title": "Reinvention",
-  "author": "Arlene Dickinson"
+  "author": "Arlene Dickinson",
+  "de": false
  },
  {
   "id": "B285",
   "group": "Non-fiction",
   "section": "Business",
   "title": "Smartcuts",
-  "author": "Shane Snow"
+  "author": "Shane Snow",
+  "de": false
  },
  {
   "id": "B184",
   "group": "Non-fiction",
   "section": "Business",
   "title": "The Entrepreneur's Playbook",
-  "author": "Leonard C. Green"
+  "author": "Leonard C. Green",
+  "de": false
  },
  {
   "id": "B001",
   "group": "Non-fiction",
   "section": "Business",
   "title": "Winning",
-  "author": "Jack Welch; Suzy Welch"
+  "author": "Jack Welch; Suzy Welch",
+  "de": false
  },
  {
   "id": "B163",
   "group": "Non-fiction",
   "section": "Art, Design & Photography",
   "title": "1000 Chairs",
-  "author": "Charlotte Fiell; Peter Fiell"
+  "author": "Charlotte Fiell; Peter Fiell",
+  "de": false
  },
  {
   "id": "B202",
   "group": "Non-fiction",
   "section": "Art, Design & Photography",
   "title": "Century",
-  "author": "Bruce Bernard"
+  "author": "Bruce Bernard",
+  "de": false
  },
  {
   "id": "B164",
   "group": "Non-fiction",
   "section": "Art, Design & Photography",
   "title": "Design of the 20th Century",
-  "author": "Charlotte Fiell; Peter Fiell"
+  "author": "Charlotte Fiell; Peter Fiell",
+  "de": false
  },
  {
   "id": "B138",
   "group": "Non-fiction",
   "section": "Art, Design & Photography",
   "title": "The Times History of Printing",
-  "author": ""
+  "author": "",
+  "de": false
  },
  {
   "id": "B284",
   "group": "Non-fiction",
   "section": "Home, Craft & Reference",
   "title": "642 Things to Write About",
-  "author": "San Francisco Writers' Grotto"
+  "author": "San Francisco Writers' Grotto",
+  "de": false
  },
  {
   "id": "B287",
   "group": "Non-fiction",
   "section": "Home, Craft & Reference",
   "title": "Keep Out! Build Your Own Backyard Clubhouse",
-  "author": "Lee Mothes"
+  "author": "Lee Mothes",
+  "de": false
  },
  {
   "id": "B183",
   "group": "Non-fiction",
   "section": "Home, Craft & Reference",
   "title": "The Martha Manual",
-  "author": "Martha Stewart"
+  "author": "Martha Stewart",
+  "de": false
  },
  {
   "id": "B209",
   "group": "Unsorted",
   "section": "Unsorted",
   "title": "Model Shop",
-  "author": ""
+  "author": "",
+  "de": false
  }
 ]

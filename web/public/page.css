@@ -1,0 +1,24 @@
+/* the privacy and terms pages */
+:root { --ink: #1f1c19; --muted: #77706a; --accent: #a4472f; --line: #e6e1d9; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: #fff; color: var(--ink); font: 17px/1.65 "Inter", system-ui, sans-serif; }
+.top { max-width: 720px; margin: 0 auto; padding: 28px 24px 0; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.top a { color: var(--ink); text-decoration: none; }
+.top .home { font: 400 22px/1 "Fraunces", Georgia, serif; }
+.top nav a { margin-left: 18px; font-size: 15px; color: var(--muted); }
+.top nav a:hover, .top nav a[aria-current] { color: var(--ink); }
+main { max-width: 720px; margin: 0 auto; padding: 40px 24px 64px; }
+h1 { margin: 0 0 6px; font: 400 clamp(36px, 6vw, 48px)/1.1 "Fraunces", Georgia, serif; letter-spacing: -.01em; }
+.date { margin: 0 0 32px; color: var(--muted); font-size: 15px; }
+h2 { margin: 36px 0 10px; font: 600 22px/1.25 "Fraunces", Georgia, serif; }
+p, li { margin: 0 0 14px; }
+ul { padding-left: 22px; }
+a { color: var(--accent); }
+table { width: 100%; border-collapse: collapse; margin: 6px 0 18px; font-size: 15px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 10px 9px 0; border-bottom: 1px solid var(--line); }
+th { font-weight: 600; }
+button.link { padding: 0; border: 0; background: none; color: var(--accent); font: inherit; text-decoration: underline; cursor: pointer; }
+footer { max-width: 720px; margin: 0 auto; padding: 0 24px 48px; font-size: 14px; color: var(--muted); }
+footer a { color: inherit; }
+@media (max-width: 520px) { body { font-size: 16px; } .top nav a { margin: 0 14px 0 0; } }

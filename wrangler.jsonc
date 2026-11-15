@@ -1,9 +1,9 @@
 {
   "name": "duess-library",
   "compatibility_date": "2026-11-10",
-  // the bookshelf is static files in web/public; worker.js only answers /api/* (book recommendations)
+  // the bookshelf is static files in web/public; worker.js only answers /api/* (book recommendations) and /geo (cookie notice)
   "main": "worker.js",
-  "assets": { "directory": "./web/public", "binding": "ASSETS", "not_found_handling": "404-page", "run_worker_first": ["/api/*"] },
+  "assets": { "directory": "./web/public", "binding": "ASSETS", "not_found_handling": "404-page", "run_worker_first": ["/api/*", "/geo"] },
   "d1_databases": [{ "binding": "DB", "database_name": "whatiamreading", "database_id": "ed7138dc-3c75-4684-a1e2-1eda69ea22ea" }],
   // recommendations are emailed here; needs Email Routing on whatiamreading.com and this address verified there
   "send_email": [{ "name": "MAIL", "destination_address": "andreas@duess.com" }],

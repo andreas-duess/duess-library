@@ -1,4 +1,4 @@
-// whatiamreading.com: the bookshelf is static files (web/public); this Worker only answers /api/*.
+// whatiamreading.com: the bookshelf is static files (web/public); this Worker only answers /api/* and /geo.
 // POST /api/recommend stores a visitor's book recommendation in D1 and emails it to Andreas.
 // Spam checks, none of which a visitor sees: Turnstile in invisible mode, a hidden field only robots
 // fill in, a minimum time with the form open, length limits, and at most five per visitor an hour.
@@ -67,6 +67,13 @@ export default {
     const url = new URL(request.url);
     if (url.pathname === "/api/recommend") {
       return request.method === "POST" ? recommend(request, env) : new Response("Not here", { status: 405 });
+    }
+    // Whether to ask this visitor before loading the Google tag (web/public/consent.js): yes in the
+    // EU, the rest of the EEA, the UK and Switzerland, and where the country is not known.
+    if (url.pathname === "/geo") {
+      const country = request.cf?.country;
+      const ask = !country || request.cf?.isEUCountry === "1" || ["GB", "CH", "NO", "IS", "LI"].includes(country);
+      return Response.json({ ask }, { headers: { "cache-control": "private, no-store" } });
     }
     return env.ASSETS.fetch(request);
   },

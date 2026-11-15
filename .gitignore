@@ -4,3 +4,5 @@ data/fetch.log
 data/batch-*.json
 .DS_Store
 .dev.vars
+data/fill.log
+data/cover-candidates/
