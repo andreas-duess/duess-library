@@ -39,3 +39,5 @@ Cloudflare Worker with static assets, Andreas@duess.com account, custom domains 
 Wrangler on the Mac Mini is logged in to that account (OAuth).
 
 Local preview: `npx wrangler@4 dev` (serves the site and the Worker).
+
+Social card: `web/public/social-card.jpg`, rendered from the page by `pipeline/social-card.mjs` (instructions at its top). Re-render after visible design changes.
