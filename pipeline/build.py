@@ -1,6 +1,6 @@
 """Build web/public/books.json from the book list, cover metadata, blurbs and Andreas's own notes.
 
-    python3 pipeline/prepare.py && python3 pipeline/build.py
+    python3 pipeline/prepare.py && uv run --with pillow pipeline/build.py
 
 data/notes.json holds Andreas's comments ({"B001": "..."}); they show under "My note".
 """
@@ -44,6 +44,46 @@ def spine_colour(hex_):
     return "#%02x%02x%02x" % tuple(round(c * 255) for c in colorsys.hls_to_rgb(h, l, s))
 
 
+def lum(rgb):
+    def ch(c):
+        c /= 255
+        return c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+    r, g, b = (ch(c) for c in rgb)
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+def contrast(a, b):
+    la, lb = sorted((lum(a), lum(b)), reverse=True)
+    return (la + 0.05) / (lb + 0.05)
+
+
+def hexc(rgb):
+    return "#%02x%02x%02x" % tuple(rgb)
+
+
+def spine_palette(path):
+    """Spine colours from the cover's left strip, which usually continues onto the spine.
+    bg = the strip's largest colour cluster; ink = a cluster with enough contrast, else black or white."""
+    from PIL import Image
+    img = Image.open(path).convert("RGB")
+    strip = img.crop((0, 0, max(4, round(img.width * 0.09)), img.height)).resize((12, 120))
+    q = strip.quantize(5)
+    pal = q.getpalette()
+    counts = sorted(q.getcolors(), reverse=True)
+    cols = [tuple(pal[i * 3:i * 3 + 3]) for _, i in counts]
+    bg = cols[0]
+    # a second colour from the whole cover for bands and marks
+    whole = img.resize((60, 90)).quantize(6)
+    wp = whole.getpalette()
+    wc = [tuple(wp[i * 3:i * 3 + 3]) for _, i in sorted(whole.getcolors(), reverse=True)]
+    sat = lambda c: max(c) - min(c)
+    accent = max(wc, key=lambda c: (contrast(c, bg) > 2.2) * 1000 + sat(c))
+    ink = next((c for c in cols[1:] + wc if contrast(c, bg) >= 4.5), None)
+    if ink is None:
+        ink = (24, 22, 20) if contrast((24, 22, 20), bg) >= contrast((248, 245, 238), bg) else (248, 245, 238)
+    return {"bg": hexc(bg), "ink": hexc(ink), "accent": hexc(accent)}
+
+
 def load(name, default):
     p = D / name
     return json.loads(p.read_text()) if p.exists() else default
@@ -70,6 +110,7 @@ for b in books:
         "cover": {"w": cover["w"], "h": cover["h"]} if cover else None,
         "color": spine_colour(cover["color"]) if cover else None,
         "de": b["id"] in GERMAN,
+        "pal": spine_palette(ROOT / f"web/public/covers/{b['id']}.jpg") if cover else None,
     })
 
 (ROOT / "web/public/books.json").write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")))

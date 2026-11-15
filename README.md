@@ -14,7 +14,7 @@ library.duess.com: Andreas's home library as a bookshelf. One shelf per section,
 
     python3 pipeline/prepare.py                          # CSV -> data/books.json (drops duplicate copies)
     uv run --with pillow pipeline/fetch_covers.py        # new books only; covers from Open Library
-    python3 pipeline/build.py                            # -> web/public/books.json
+    uv run --with pillow pipeline/build.py               # -> web/public/books.json (spine colours from covers)
 
 Covers come from Open Library, matched on title and author. Google Books is used only to find an ISBN when the Open Library search misses; the image always comes from Open Library. Books without a cover get a generated one (title and author on the spine colour). To fix a wrong cover, drop a JPEG at `web/public/covers/<ID>.jpg` and set its `cover` entry in `data/meta.json`.
 
