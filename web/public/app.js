@@ -103,8 +103,10 @@ function spec(b) {
     fade: rand() < 0.22, worn: type !== "hc" || rand() < 0.3, creases: type === "pb" && rand() < 0.45 ? 1 + Math.floor(rand() * 4) : 0,
     back: rand() < 0.16, foil: type === "hc" && !light && layout !== "band" && layout !== "head" && rand() < 0.45,
     foilTone: rand() < 0.65 ? "gold" : "silver", seed: h,
+    tear: type === "hc" && rand() < 0.2 ? { top: rand() < 0.75, from: rand() * 35, to: 55 + rand() * 45, depth: 7 + rand() * 11 } : null,
   };
-  return { fmt, type, layout, font, w, h: height, wear, light, thickMm, heightMm, bg, ink, acc, ink3: inkOn(acc), fs,
+  const space = [0, 0, 0, 0, 0.5, 1, 1.5, 2.5][(h >>> 21) % 8] * k; // books never stand perfectly evenly
+  return { fmt, type, layout, font, w, h: height, wear, light, space, thickMm, heightMm, bg, ink, acc, ink3: inkOn(acc), fs,
     mark: MARKS[(h >>> 17) % MARKS.length], wrap: layout !== "horiz" && b.title.length > 22 && w > 26 };
 }
 
@@ -128,6 +130,7 @@ function makeSpine(b, sp) {
   const title = document.createElement("span");
   title.className = `sp-title${vert}${sp.wrap ? " wrap" : ""}`;
   title.textContent = b.title;
+  if (sp.wrap) title.style.fontSize = `${Math.min(sp.fs * (sp.layout === "bold" ? 1.2 : 1), sp.w * 0.3)}px`; // two columns must fit across the spine
   const mark = document.createElement("span");
   mark.className = "sp-mark";
   mark.innerHTML = sp.mark;
@@ -135,7 +138,33 @@ function makeSpine(b, sp) {
   else s.append(author, title, mark);
   if (!b.author) author.remove();
   s.append(wearLayer(sp));
+  if (sp.wear.tear) s.append(...tearLayers(sp));
   return s;
+}
+
+// A chipped dust jacket: a ragged piece missing at the head or foot, the board showing through
+// with a sliver of white paper along the torn edge.
+function tearLayers(sp) {
+  const t = sp.wear.tear, rand = rng(sp.wear.seed ^ 0x2545f491);
+  const pts = [], n = 7;
+  for (let i = 0; i <= n; i++) {
+    const x = t.from + ((t.to - t.from) * i) / n;
+    const edge = i === 0 || i === n;
+    pts.push([x, edge ? 0 : t.depth * (0.35 + rand() * 0.65)]);
+  }
+  const poly = (grow) => {
+    const p = pts.map(([x, y], i) => [x + (i === 0 ? -grow : i === n ? grow : 0), y + (y ? grow : 0)]);
+    const at = (y) => (t.top ? `${y}px` : `calc(100% - ${y}px)`);
+    return `polygon(${p.map(([x, y]) => `${x}% ${at(y)}`).join(",")})`;
+  };
+  const board = ["#2d2c30", "#3d2c22", "#22303d", "#4f4a42", "#5a2a2a"][sp.wear.seed % 5];
+  const paper = document.createElement("span");
+  paper.className = "tear";
+  paper.style.cssText = `background-color:#f4efe4;clip-path:${poly(2)}`;
+  const under = document.createElement("span");
+  under.className = "tear";
+  under.style.cssText = `background-color:${board};clip-path:${poly(0)}`;
+  return [paper, under];
 }
 
 // One overlay per spine: head and foot shading, rubbed corners, sun fading and reading creases.
@@ -203,7 +232,15 @@ function render() {
     }
     s.upright = s.books.filter((b) => !s.stack.includes(b));
     const last = s.upright[s.upright.length - 1];
-    if (!s.stack.length && last && hash(last.id + "lean") % 3 === 0) last.sp.lean = true;
+    if (!s.stack.length && last && hash(last.id + "lean") % 3 === 0) last.sp.tilt = { rot: -3.5, origin: "0 0", end: true };
+    // a gap where a book has been taken out; the book beside it usually leans into the space
+    s.gap = null;
+    if (s.upright.length >= 10 && hash(s.name + "gap") % 4 !== 0) {
+      const before = s.upright[2 + (hash(s.name + "at") % (s.upright.length - 4))];
+      const w = (14 + (hash(s.name + "w") % 12)) * k;
+      s.gap = { after: before, w };
+      if (hash(s.name + "into") % 3) before.sp.tilt = { rot: (Math.atan((w * 0.92) / before.sp.h) * 180) / Math.PI, origin: "100% 100%" };
+    }
   }
 
   // pack sections onto shelves; a section that doesn't fit what's left of a shelf starts a new one,
@@ -213,7 +250,11 @@ function render() {
   const newRow = () => rows.push((row = { segs: [], used: 0 }));
   newRow();
   for (const s of sections) {
-    const units = s.upright.map((b) => ({ kind: "book", b, w: b.sp.w + (b.sp.lean ? b.sp.h * 0.07 : 0) }));
+    const units = [];
+    for (const b of s.upright) {
+      units.push({ kind: "book", b, w: b.sp.w + b.sp.space + (b.sp.tilt?.end ? b.sp.h * 0.07 : 0) });
+      if (s.gap?.after === b) units.push({ kind: "gap", w: s.gap.w });
+    }
     if (s.stack.length) units.push({ kind: "stack", books: s.stack, w: Math.max(...s.stack.map((b) => b.sp.h)) + 18 });
     const total = units.reduce((n, u) => n + u.w, 0);
     const lead = () => (row.segs.length ? gap : 0);
@@ -259,10 +300,21 @@ function render() {
       for (const u of seg.units) {
         if (u.kind === "book") {
           const s = makeSpine(u.b, u.b.sp);
-          if (u.b.sp.lean && u === seg.units[seg.units.length - 1]) s.classList.add("lean");
+          const tilt = u.b.sp.tilt;
+          if (tilt && (!tilt.end || u === seg.units[seg.units.length - 1])) {
+            s.classList.add("tilt");
+            s.style.setProperty("--rot", `${tilt.rot}deg`);
+            s.style.setProperty("--to", tilt.origin);
+          }
+          if (u.b.sp.space) s.style.marginRight = `${u.b.sp.space}px`;
           wire(u.b, s, s, false);
           segEl.append(s);
           tallest = Math.max(tallest, u.b.sp.h);
+        } else if (u.kind === "gap") {
+          const g = document.createElement("div");
+          g.className = "gapspace";
+          g.style.width = `${u.w}px`;
+          segEl.append(g);
         } else {
           const st = document.createElement("div");
           st.className = "stack";
@@ -402,7 +454,7 @@ function makeAnimation(b) {
   const ow = b.el.offsetWidth, oh = b.el.offsetHeight;
   const s0 = (b.flat ? ow : oh) / L.H;
   const D = (b.flat ? oh : ow) / s0;
-  const rz = b.flat ? -90 : b.el.classList.contains("lean") ? -3.5 : 0;
+  const rz = b.flat ? -90 : b.el.classList.contains("tilt") ? parseFloat(b.el.style.getPropertyValue("--rot")) : 0;
   buildBook(b, L, D, s0);
   const T = (cx, cy, s, rotY, z, rotZ) =>
     `translate3d(${cx - L.W / 2}px, ${cy - L.H / 2}px, ${z}px) scale3d(${s}, ${s}, ${s}) rotateZ(${rotZ}deg) rotateY(${rotY}deg)`;

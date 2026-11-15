@@ -104,9 +104,12 @@ h1 { margin: 0; font: 400 clamp(44px, 6vw, 68px)/1 var(--serif); letter-spacing:
 /* foil-stamped lettering on dark jackets */
 .foil-gold .sp-title { background: linear-gradient(100deg, #9a7a3a, #f3dd9b 35%, #b8913f 55%, #f6e3a8 75%, #9a7a3a); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; }
 .foil-silver .sp-title { background: linear-gradient(100deg, #8d9399, #f4f6f8 35%, #a9afb5 55%, #ffffff 75%, #8d9399); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; }
-/* leaning on its neighbour */
-.spine.lean { transform-origin: 0 0; transform: rotate(-3.5deg); }
-.spine.lean:hover, .spine.lean:focus-visible { transform: translateY(-7px); }
+/* leaning on a neighbour, or into the gap where a book was taken out */
+.spine.tilt { transform-origin: var(--to); transform: rotate(var(--rot)); }
+.spine.tilt:hover, .spine.tilt:focus-visible { transform: translateY(-7px); }
+.gapspace { flex: none; align-self: stretch; }
+/* torn jacket pieces: under the shading, over the lettering */
+.spine > .tear { position: absolute; inset: 0; z-index: 1; pointer-events: none; text-shadow: none; background-image: var(--grain); }
 .v { writing-mode: vertical-rl; }
 .de .v { transform: rotate(180deg); }
 .sp-title, .sp-author { line-height: 1.05; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
