@@ -1,7 +1,16 @@
 {
   "name": "duess-library",
   "compatibility_date": "2026-11-10",
-  // a static site: Cloudflare serves web/public, no Worker code
-  "assets": { "directory": "./web/public", "not_found_handling": "404-page" },
-  "routes": [{ "pattern": "library.duess.com", "custom_domain": true }]
+  // the bookshelf is static files in web/public; worker.js only answers /api/* (book recommendations)
+  "main": "worker.js",
+  "assets": { "directory": "./web/public", "binding": "ASSETS", "not_found_handling": "404-page", "run_worker_first": ["/api/*"] },
+  "d1_databases": [{ "binding": "DB", "database_name": "whatiamreading", "database_id": "ed7138dc-3c75-4684-a1e2-1eda69ea22ea" }],
+  // recommendations are emailed here; needs Email Routing on whatiamreading.com and this address verified there
+  "send_email": [{ "name": "MAIL", "destination_address": "andreas@duess.com" }],
+  "vars": { "RECOMMEND_TO": "andreas@duess.com" },
+  // TURNSTILE_SECRET is a Worker secret (wrangler secret put); .dev.vars has Turnstile's test secret
+  "routes": [
+    { "pattern": "whatiamreading.com", "custom_domain": true },
+    { "pattern": "www.whatiamreading.com", "custom_domain": true }
+  ]
 }

@@ -1,6 +1,6 @@
 # duess-library
 
-library.duess.com: Andreas's home library as a bookshelf. One shelf per section, spines drawn in code; click a spine and the book comes off the shelf, turns to its cover, and a short note sits beside it.
+whatiamreading.com (formerly library.duess.com): Andreas's home library as a bookshelf. White shelves wall to wall, sections packed onto them, spines drawn in code from each book's format and cover colours; click a spine and the book comes off the shelf, turns to its cover, and a short note sits beside it. Search by title, author or section, and a "Recommend a book" form.
 
 ## Where things are
 
@@ -20,12 +20,22 @@ Covers come from Open Library, matched on title and author. Google Books is used
 
 German books (`GERMAN` in `build.py`) get spines that read bottom to top.
 
+## Recommendations
+
+`worker.js` answers `POST /api/recommend` (everything else is static files). Each recommendation is stored in D1 (`whatiamreading`, table `recommendations`, schema in `migrations/`) and emailed to andreas@duess.com from library@whatiamreading.com, Reply-To the visitor when they gave an address. Email needs Email Routing switched on for whatiamreading.com; until then rows are stored with `emailed = 0`.
+
+Spam checks, invisible to visitors: Turnstile in invisible mode (widget "whatiamreading", secret in the Worker secret `TURNSTILE_SECRET`, test keys locally via `.dev.vars`), a hidden honeypot field, at least three seconds with the form open, length limits, and five per visitor an hour (salted IP hash).
+
+Read them: `npx wrangler@4 d1 execute whatiamreading --remote --command "SELECT created_at, title, author, note, name, email FROM recommendations ORDER BY id DESC"`
+
+Local: `npx wrangler@4 d1 execute whatiamreading --local --file migrations/0001_recommendations.sql`, then `npx wrangler@4 dev`.
+
 ## Deploy
 
-Cloudflare Workers static assets, Andreas@duess.com account, custom domain `library.duess.com` (`wrangler.jsonc`).
+Cloudflare Worker with static assets, Andreas@duess.com account, custom domains `whatiamreading.com` and `www.whatiamreading.com` (`wrangler.jsonc`).
 
     npx wrangler@4 deploy
 
 Wrangler on the Mac Mini is logged in to that account (OAuth).
 
-Local preview: `cd web/public && python3 -m http.server 8765`.
+Local preview: `npx wrangler@4 dev` (serves the site and the Worker).

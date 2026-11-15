@@ -342,6 +342,7 @@ function render() {
     shelves.append(el);
   });
   if (document.fonts.status === "loaded") fitTitles();
+  if (q.value) search(); // keep search highlighting after a resize
 }
 
 // Shrink lettering that doesn't fit its spine; past the floor the title ends in an ellipsis.
@@ -527,7 +528,144 @@ function closeBook() {
 
 $("#close").addEventListener("click", closeBook);
 stage.addEventListener("click", (e) => { if (e.target.classList.contains("veil")) closeBook(); });
-addEventListener("keydown", (e) => { if (e.key === "Escape") closeBook(); });
+addEventListener("keydown", (e) => {
+  if (e.key !== "Escape") return;
+  if (!recommend.hidden) closeRecommend();
+  else closeBook();
+});
+
+// Search: matches title, author and section, ignoring case and accents (typing "saulen" finds Säulen).
+// While a query is typed, the books that don't match fade back on the shelves.
+const q = $("#q"), results = $("#results");
+const fold = (s) => s.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/ß/g, "ss").toLowerCase();
+let hits = [], active = -1;
+function search() {
+  const words = fold(q.value).split(/\s+/).filter(Boolean);
+  shelves.classList.toggle("searching", words.length > 0);
+  hits = [];
+  for (const b of books) {
+    b.hay ??= fold(`${b.title} ${b.author} ${b.section}`);
+    const hit = words.length > 0 && words.every((w) => b.hay.includes(w));
+    b.spineEl?.classList.toggle("match", hit);
+    if (hit) hits.push(b);
+  }
+  hits.sort((a, c) => (fold(c.title).startsWith(words[0] ?? "") - fold(a.title).startsWith(words[0] ?? "")) || a.title.localeCompare(c.title));
+  active = -1;
+  results.innerHTML = "";
+  if (!words.length) { results.hidden = true; q.setAttribute("aria-expanded", "false"); return; }
+  if (!hits.length) results.innerHTML = `<li class="none">No books match that.</li>`;
+  hits.slice(0, 8).forEach((b, i) => {
+    const li = document.createElement("li");
+    li.id = `r${i}`;
+    li.setAttribute("role", "option");
+    li.innerHTML = `<span class="r-title"></span><span class="r-meta"></span>`;
+    li.firstChild.textContent = b.title;
+    li.lastChild.textContent = [b.author, b.section].filter(Boolean).join(" · ");
+    li.addEventListener("mousedown", (e) => { e.preventDefault(); choose(b); });
+    results.append(li);
+  });
+  if (hits.length > 8) results.insertAdjacentHTML("beforeend", `<li class="none">${hits.length - 8} more highlighted on the shelves</li>`);
+  results.hidden = false;
+  q.setAttribute("aria-expanded", "true");
+}
+function highlight(i) {
+  const items = [...results.querySelectorAll("[role=option]")];
+  if (!items.length) return;
+  active = (i + items.length) % items.length;
+  items.forEach((li, j) => li.setAttribute("aria-selected", j === active ? "true" : "false"));
+  q.setAttribute("aria-activedescendant", items[active].id);
+}
+function choose(b) {
+  results.hidden = true;
+  q.setAttribute("aria-expanded", "false");
+  b.el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+  setTimeout(() => openBook(b), 550);
+}
+q.addEventListener("input", search);
+q.addEventListener("focus", () => { if (q.value) search(); });
+q.addEventListener("blur", () => setTimeout(() => { results.hidden = true; q.setAttribute("aria-expanded", "false"); }, 120));
+q.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowDown") { e.preventDefault(); highlight(active + 1); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); highlight(active - 1); }
+  else if (e.key === "Enter") { e.preventDefault(); const b = hits[Math.max(active, 0)]; if (b) choose(b); }
+  else if (e.key === "Escape") { e.stopPropagation(); q.value = ""; search(); }
+});
+
+// Recommend a book: a form in a panel. Turnstile (invisible) loads only when the panel opens.
+const SITEKEY = location.hostname.endsWith("whatiamreading.com") ? "0x4AAAAAAGCjHLvBZn9GoK01" : "1x00000000000000000000AA"; // Turnstile test key elsewhere
+const recommend = $("#recommend"), form = $("#rec-form"), recError = $("#rec-error");
+let opened = 0, token = "", widget = null, sending = false;
+function loadTurnstile() {
+  if (window.turnstile) return Promise.resolve();
+  return new Promise((ok, fail) => {
+    const s = document.createElement("script");
+    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+    s.onload = ok;
+    s.onerror = fail;
+    document.head.append(s);
+  });
+}
+function openRecommend() {
+  hideTip();
+  recommend.hidden = false;
+  document.body.classList.add("panel-open");
+  requestAnimationFrame(() => recommend.classList.add("open"));
+  opened = Date.now();
+  form.elements.title.focus({ preventScroll: true });
+  loadTurnstile().then(() => {
+    if (widget === null) widget = turnstile.render("#ts", { sitekey: SITEKEY, callback: (t) => (token = t), "expired-callback": () => (token = ""), "refresh-expired": "auto" });
+  }).catch(() => {});
+}
+function closeRecommend() {
+  recommend.classList.remove("open");
+  document.body.classList.remove("panel-open");
+  setTimeout(() => { recommend.hidden = true; }, 250);
+  $("#recommend-open").focus({ preventScroll: true });
+}
+function showError(msg) {
+  recError.textContent = msg;
+  recError.hidden = !msg;
+}
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (sending) return;
+  const data = Object.fromEntries(new FormData(form));
+  if (!data.title.trim()) { showError("Please add the book's title."); form.elements.title.focus(); return; }
+  if (data.email && !form.elements.email.checkValidity()) { showError("That email address doesn't look right."); form.elements.email.focus(); return; }
+  showError("");
+  sending = true;
+  const btn = $("#rec-send");
+  btn.disabled = true;
+  btn.textContent = "Sending…";
+  // the invisible check usually finishes while the form is filled in; wait a moment if it hasn't
+  for (let i = 0; !token && i < 40; i++) await new Promise((r) => setTimeout(r, 150));
+  try {
+    const res = await fetch("/api/recommend", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...data, opened, token }) });
+    if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "Something went wrong. Please try again.");
+    form.hidden = true;
+    $("#rec-thanks").hidden = false;
+    $("#rec-another").focus({ preventScroll: true });
+  } catch (err) {
+    showError(err.message);
+  } finally {
+    sending = false;
+    btn.disabled = false;
+    btn.textContent = "Send recommendation";
+    token = "";
+    if (widget !== null) turnstile.reset(widget);
+  }
+});
+form.addEventListener("input", () => showError(""));
+$("#recommend-open").addEventListener("click", openRecommend);
+$("#recommend-close").addEventListener("click", closeRecommend);
+recommend.querySelector(".panel-veil").addEventListener("click", closeRecommend);
+$("#rec-another").addEventListener("click", () => {
+  form.reset();
+  form.hidden = false;
+  $("#rec-thanks").hidden = true;
+  opened = Date.now();
+  form.elements.title.focus();
+});
 
 let resizeTimer, lastWidth = innerWidth;
 addEventListener("resize", () => {
