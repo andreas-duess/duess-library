@@ -19,6 +19,20 @@ BLURB_FIXES = {
     "B106": "A German-language illustrated book about cats.",
     "B169": "Strandkorbkrimis is a German-language anthology of short crime stories set on the Baltic coast, where the hooded beach chair, or Strandkorb, is a familiar sight.",
     "B209": "",
+    "B178": "Dispatches from the Front is David Halton's biography of his father, Matthew Halton, the CBC correspondent whose radio reports from the Second World War made him one of the best-known voices in Canada.",
+    "B255": "The Get is a crime novel by the Canadian author Dietrich Kalteis, published by ECW Press.",
+    "B070": "Montenegro is a 1997 novel by Starling Lawrence, an American editor and writer. Its story is set in the Balkans in the years before the First World War.",
+    "B214": "The Prairie Dog Conspiracy is a mystery for young readers by the Canadian author Eric Wilson, part of his series about the young detectives Tom and Liz Austen.",
+    "B301": "Necrophenia is a comic novel by Robert Rankin, set in the absurd version of Brentford, the west London suburb, that runs through many of his books.",
+}
+
+# first-publication years where Open Library's first match gave an edition or translation year (None hides it)
+YEAR_FIXES = {
+    "B306": 1842, "B093": 1836, "B278": 1835, "B083": 2001, "B063": 1994, "B275": 1991, "B308": 1998,
+    "B228": 2010, "B235": 1958, "B050": 2005, "B033": 1993, "B253": 1994, "B326": 1955, "B162": 1943,
+    "B217": 2005, "B288": 2017, "B164": 1999, "B299": 1994, "B145": 2002,
+    "B091": None, "B069": None, "B061": None, "B240": None, "B245": None, "B130": None, "B106": None,
+    "B209": None, "B159": None, "B101": None, "B301": None,
 }
 
 
@@ -52,7 +66,7 @@ for b in books:
     out.append({
         "id": b["id"], "section": "Miscellany" if b["section"] == "Unsorted" else b["section"], "title": b["title"], "author": b["author"],
         "blurb": blurbs.get(b["id"], ""), "note": notes.get(b["id"], ""),
-        "year": m.get("year"), "pages": m.get("pages"),
+        "year": YEAR_FIXES.get(b["id"], m.get("year")), "pages": m.get("pages"),
         "cover": {"w": cover["w"], "h": cover["h"]} if cover else None,
         "color": spine_colour(cover["color"]) if cover else None,
         "de": b["id"] in GERMAN,
