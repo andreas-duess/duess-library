@@ -76,9 +76,34 @@ function render() {
       slot.append(s);
       rows.append(slot);
     }
+    // the last book leans against a bookend
+    const end = document.createElement("div");
+    end.className = "bookend";
+    rows.append(end);
+    list[list.length - 1].el.classList.add("lean");
     shelf.append(rows);
     shelves.append(shelf);
   }
+  decorate();
+}
+
+// A plant or a globe at the end of a shelf row with room to spare; one per shelf at most.
+const ORNAMENTS = [
+  `<svg width="78" height="96" viewBox="0 0 78 96" aria-hidden="true"><path d="M39 58c-2-14-12-22-24-24 6 10 12 18 24 24z" fill="#4f7a3e"/><path d="M39 58c1-16 9-28 22-33-4 12-10 24-22 33z" fill="#5f8f47"/><path d="M39 60c-6-18-4-34 4-46 4 14 2 30-4 46z" fill="#6aa04f"/><path d="M39 60c-10-8-24-8-32-2 10 4 21 5 32 2z" fill="#43693a"/><path d="M39 60c9-9 22-11 31-6-9 5-20 7-31 6z" fill="#4f7a3e"/><path d="M20 62h38l-5 32H25z" fill="#b5613f"/><path d="M18 58h42v7H18z" fill="#c9734d"/><path d="M25 94h28" stroke="#7d3f27" stroke-width="2"/></svg>`,
+  `<svg width="70" height="96" viewBox="0 0 70 96" aria-hidden="true"><circle cx="35" cy="40" r="26" fill="#3d6b7a"/><path d="M22 24c6 2 9 7 7 12s-8 5-9 11 4 9 2 13M44 18c-3 6 1 9 6 10s6 7 3 11M40 50c4 1 8 4 7 9" stroke="#c9b37a" stroke-width="5" fill="none" stroke-linecap="round" opacity=".85"/><circle cx="35" cy="40" r="26" fill="none" stroke="#1f3b44" stroke-width="2"/><path d="M35 8a32 32 0 0 1 0 64" stroke="#b8924a" stroke-width="3" fill="none"/><path d="M35 72v12" stroke="#8a6a2f" stroke-width="4"/><path d="M20 92c0-6 7-9 15-9s15 3 15 9z" fill="#a07b3c"/></svg>`,
+];
+function decorate() {
+  [...shelves.querySelectorAll(".rows")].forEach((rows, i) => {
+    rows.querySelector(".ornament")?.remove();
+    const end = rows.querySelector(".bookend");
+    const gap = rows.getBoundingClientRect().right - end.getBoundingClientRect().right - 12;
+    if (gap < 160) return;
+    const o = document.createElement("div");
+    o.className = "ornament";
+    o.innerHTML = ORNAMENTS[i % ORNAMENTS.length];
+    o.style.top = `${end.offsetTop + end.offsetHeight - 96}px`; // standing on the board, beside the bookend's row
+    rows.append(o);
+  });
 }
 
 // The small panel above a spine on hover or keyboard focus: title, author, year and section.
@@ -251,4 +276,4 @@ addEventListener("resize", () => {
 
 fetch("books.json")
   .then((r) => r.json())
-  .then((data) => { books = data; render(); });
+  .then((data) => { books = data; render(); document.fonts.ready.then(decorate); });
