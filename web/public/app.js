@@ -1,11 +1,37 @@
-// The shelf: one row of generated spines per section. Clicking a spine pulls the book out
-// (a 3D box that starts exactly where the spine sits), turns it to show the cover and opens the note.
+// The shelf: white shelves wall to wall and spines drawn to look like real books.
+// Sizes are worked out in millimetres from each book's format and page count, colours come from the
+// cover (see pipeline/build.py), and sections are packed onto shelves so the boards stay full.
 
-const PALETTE = ["#7a2e2a", "#2f4a6b", "#3f6b5c", "#c9a24d", "#5b3d5e", "#1f3b3a", "#a5532f", "#e6dccb", "#34495e", "#8c6d46", "#4c5c2c", "#d8cbb0"];
-const BIG = new Set(["Cooking & Food", "Art, Design & Photography", "Home, Craft & Reference"]);
+const SMALL = new Set(["Cooking & Food", "Art, Design & Photography", "Home, Craft & Reference"]);
+const FICTION = new Set(["Literary Fiction & Poetry", "Crime & Thriller", "Science Fiction", "Fantasy & Horror", "Historical Fiction", "Humour"]);
+
+// spine colours for books without a cover: mostly off-whites and dark neutrals, some muted colour
+const PAL = [
+  ["#f1ece1", "#1f1c19", "#a4472f", 6], ["#e9e2d0", "#2b2a28", "#3d5a6c", 5], ["#fbfaf6", "#1d1d1d", "#c2502f", 5],
+  ["#ded6c4", "#3a2e22", "#7a2e2a", 3], ["#1d1d1f", "#efe9dd", "#c9a24d", 4], ["#2c2a29", "#e8e2d6", "#b5523b", 2],
+  ["#23344a", "#f0e9db", "#d6b46a", 2], ["#6b2228", "#f2e7d5", "#d9b45f", 2], ["#2f4a3c", "#efe7d4", "#d5b871", 2],
+  ["#c9962e", "#1f1c19", "#7a2e2a", 1], ["#c0592f", "#fbf3e6", "#1f1c19", 2], ["#2e6a6b", "#f2ede1", "#e3c27a", 1],
+  ["#8b8c88", "#141414", "#ffffff", 1], ["#5a6e86", "#f4efe4", "#1f1c19", 1], ["#b8c2b0", "#1f2a22", "#7a2e2a", 1],
+];
+const FONTS = [
+  { ff: '"Libre Caslon Text", serif', fw: 400 },
+  { ff: '"Libre Caslon Text", serif', fw: 700, tt: "uppercase", ls: ".08em" },
+  { ff: '"Playfair Display", serif', fw: 600 },
+  { ff: '"Oswald", sans-serif', fw: 500, tt: "uppercase", ls: ".06em" },
+  { ff: '"Barlow Condensed", sans-serif', fw: 600, tt: "uppercase", ls: ".1em" },
+  { ff: '"Inter", sans-serif', fw: 600, ls: ".01em" },
+  { ff: '"Fraunces", serif', fw: 400 },
+];
+const MARKS = [
+  '<svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>',
+  '<svg viewBox="0 0 10 10"><ellipse cx="5" cy="5" rx="3" ry="4.4" fill="currentColor"/></svg>',
+  '<svg viewBox="0 0 10 10"><rect x="1.5" y="1.5" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="5" cy="5" r="1.4" fill="currentColor"/></svg>',
+  '<svg viewBox="0 0 10 10"><path d="M5 1l4 8H1z" fill="currentColor"/></svg>',
+  '<svg viewBox="0 0 10 10"><path d="M1 7h8M2.5 4.5h5" stroke="currentColor" stroke-width="1.3"/></svg>',
+];
 
 const $ = (s) => document.querySelector(s);
-const shelves = $("#shelves"), stage = $("#stage"), book3d = $("#book3d"), note = $("#note");
+const shelves = $("#shelves"), stage = $("#stage"), book3d = $("#book3d"), note = $("#note"), tip = $("#tip");
 let books = [], open = null;
 
 function hash(s) {
@@ -13,118 +39,303 @@ function hash(s) {
   for (const ch of s) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
   return h >>> 0;
 }
+function rng(seed) { // mulberry32: the same sequence for the same book on every visit
+  return () => {
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const scale = () => (innerWidth < 720 ? 0.66 : innerWidth < 1100 ? 0.85 : 1); // px per millimetre
 
-function inkFor(hex, h) {
-  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
-  const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  if (lum > 0.55) return "#1f1c19";
-  return h % 3 === 0 ? "#e5c784" : "#f6f1e7"; // some dark spines get gold lettering
+function luminance(hex) {
+  const [r, g, b] = [1, 3, 5].map((i) => {
+    const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+const inkOn = (hex) => (luminance(hex) > 0.36 ? "#1d1b19" : "#f7f3ea");
+
+// Format, size, material, layout and colours for one book, the same on every visit.
+function spec(b) {
+  const h = hash(b.id + b.title), r = h % 100;
+  let fmt;
+  if (b.section === "Art, Design & Photography") fmt = "art";
+  else if (SMALL.has(b.section)) fmt = r < 85 ? "cook" : "hc";
+  else if (/vol\. 1/i.test(b.title)) fmt = "manga";
+  else if (b.year && b.year < 1930) fmt = "cloth";
+  else if (FICTION.has(b.section)) fmt = r < 22 ? "mass" : r < 50 ? "bfmt" : r < 72 ? "trade" : "hc";
+  else fmt = r < 20 ? "bfmt" : r < 45 ? "trade" : "hc";
+
+  const v = (h >>> 8) % 41;
+  const heightMm = { mass: 175 + (v % 7), bfmt: 196 + (v % 5), trade: 203 + (v % 14), hc: 222 + (v % 21),
+    cook: 245 + v, art: 280 + (v % 26), manga: 182, cloth: 198 + (v % 30) }[fmt];
+  const pages = b.pages || (FICTION.has(b.section) ? 300 + (h % 120) : 260 + (h % 100));
+  const thickMm = Math.max(9, Math.min(70,
+    fmt === "cook" || fmt === "art" ? pages * 0.11 + 6 : fmt === "hc" ? pages * 0.075 + 5 : fmt === "cloth" ? pages * 0.08 + 5 : pages * 0.065 + 1.5));
+  const type = fmt === "cloth" ? "cloth" : ["hc", "cook", "art"].includes(fmt) ? "hc" : "pb";
+
+  let bg, ink, acc;
+  if (b.pal) ({ bg, ink, accent: acc } = b.pal);
+  else {
+    const total = PAL.reduce((n, p) => n + p[3], 0);
+    let k = (h >>> 4) % total, p = PAL[0];
+    for (const q of PAL) { if ((k -= q[3]) < 0) { p = q; break; } }
+    [bg, ink, acc] = p;
+  }
+  if (type === "cloth" && !b.pal) bg = ["#5b1f22", "#1f3a33", "#22304a", "#4a3a26"][h % 4];
+
+  const k = scale();
+  const w = thickMm * k, height = heightMm * k;
+  let layout;
+  if (type === "cloth") layout = "cloth";
+  else if (thickMm >= 34 && thickMm * k >= 30 && (h >>> 9) % 3) layout = "horiz"; // sideways lettering needs room
+  else layout = ["classic", "rules", "band", "bold", "head", "classic"][(h >>> 11) % 6];
+  const font = FONTS[(h >>> 13) % FONTS.length];
+  const fs = layout === "horiz" ? Math.min(20, Math.max(10, w * 0.34)) : Math.min(19, Math.max(8.5, w * 0.47));
+  // signs of age and use: sun fading, rubbed corners, reading creases, books set back, foil lettering
+  const rand = rng(h);
+  const light = luminance(bg) > 0.36;
+  const wear = {
+    fade: rand() < 0.22, worn: type !== "hc" || rand() < 0.3, creases: type === "pb" && rand() < 0.45 ? 1 + Math.floor(rand() * 4) : 0,
+    back: rand() < 0.16, foil: type === "hc" && !light && layout !== "band" && layout !== "head" && rand() < 0.45,
+    foilTone: rand() < 0.65 ? "gold" : "silver", seed: h,
+  };
+  return { fmt, type, layout, font, w, h: height, wear, light, thickMm, heightMm, bg, ink, acc, ink3: inkOn(acc), fs,
+    mark: MARKS[(h >>> 17) % MARKS.length], wrap: layout !== "horiz" && b.title.length > 22 && w > 26 };
 }
 
-function spineLook(b) {
-  const h = hash(b.id + b.title);
-  const k = innerWidth < 720 ? 0.78 : 1;
-  const big = BIG.has(b.section);
-  const pages = b.pages || 220 + (h % 160);
-  const w = Math.max(20, Math.min(66, big ? pages / 7 : pages / 11)) * k;
-  const height = (big ? 204 + (h % 26) : b.section === "Children's & YA" ? 172 + (h % 40) : 166 + (h % 36)) * k;
-  const c = b.color || PALETTE[h % PALETTE.length];
-  return { w, h: height, c, t: inkFor(c, h >> 3), fs: Math.max(10, Math.min(17, w * 0.42)), font: `f${(h >> 5) % 4}`, deco: `d${(h >> 7) % 4}` };
+function makeSpine(b, sp) {
+  const s = document.createElement("button");
+  s.className = `spine ${sp.type} l-${sp.layout}${b.de ? " de" : ""}`;
+  s.style.cssText = `--w:${sp.w}px;--h:${sp.h}px;--bg:${sp.bg};--ink2:${sp.ink};--acc:${sp.acc};--acc2:${sp.ink};--ink3:${sp.ink3};` +
+    `--fs:${sp.fs}px;--ff:${sp.font.ff};--fw:${sp.font.fw};--tt:${sp.font.tt || "none"};--ls:${sp.font.ls || "0"};` +
+    `--ffa:${sp.font.ff.includes("serif") && !sp.font.ff.includes("sans") ? sp.font.ff : '"Inter", sans-serif'}`;
+  s.dataset.id = b.id;
+  const wr = sp.wear;
+  if (wr.back) s.classList.add("back");
+  if (wr.foil) s.classList.add(`foil-${wr.foilTone}`);
+  s.style.setProperty("--emb", sp.light ? "0 1px 0 rgba(255,255,255,.45)" : "0 -1px 0 rgba(0,0,0,.45)");
+  s.setAttribute("aria-label", b.author ? `${b.title} by ${b.author}` : b.title);
+  const vert = sp.layout !== "horiz" ? " v" : "";
+  const surname = (b.author || "").split(";")[0].replace(/\(ed\.\)/, "").trim().split(" ").pop();
+  const author = document.createElement("span");
+  author.className = `sp-author${vert}`;
+  author.textContent = sp.layout === "horiz" || sp.layout === "cloth" ? surname : (b.author || "").split(";")[0].replace(/\(ed\.\)/, "").trim();
+  const title = document.createElement("span");
+  title.className = `sp-title${vert}${sp.wrap ? " wrap" : ""}`;
+  title.textContent = b.title;
+  const mark = document.createElement("span");
+  mark.className = "sp-mark";
+  mark.innerHTML = sp.mark;
+  if (sp.layout === "horiz" || sp.layout === "cloth") s.append(title, author, mark);
+  else s.append(author, title, mark);
+  if (!b.author) author.remove();
+  s.append(wearLayer(sp));
+  return s;
 }
 
-function spineInner(b) {
-  const t = document.createElement("span");
-  t.className = "t";
-  t.textContent = b.title;
-  return t;
+// One overlay per spine: head and foot shading, rubbed corners, sun fading and reading creases.
+function wearLayer(sp) {
+  const rand = rng(sp.wear.seed ^ 0x9e3779b9);
+  const img = [], size = [], pos = [];
+  const add = (i, s, p) => { img.push(i); size.push(s); pos.push(p); };
+  add("linear-gradient(to bottom, rgba(0,0,0,.18), rgba(0,0,0,0))", "100% 5px", "0 0");          // head
+  add("linear-gradient(to top, rgba(0,0,0,.30), rgba(0,0,0,0))", "100% 6px", "0 100%");          // foot, where it meets the board
+  if (sp.wear.fade) add("linear-gradient(to bottom, rgba(255,250,240,.28), rgba(255,250,240,.06) 55%, rgba(255,250,240,0))", "100% 100%", "0 0");
+  if (sp.wear.worn) {
+    const c = sp.light ? "rgba(120,100,80,.22)" : "rgba(255,255,255,.22)";
+    add(`radial-gradient(circle at 0 0, ${c}, transparent 70%)`, "7px 7px", "0 0");
+    add(`radial-gradient(circle at 100% 0, ${c}, transparent 70%)`, "7px 7px", "100% 0");
+    add(`radial-gradient(circle at 0 100%, ${c}, transparent 70%)`, "6px 6px", "0 100%");
+    add(`linear-gradient(${c}, ${c})`, "100% 1px", "0 0");
+  }
+  for (let i = 0; i < sp.wear.creases; i++) { // a broken spine: short pale lines with a shadow beside them
+    const x = rand() < 0.5 ? 8 + rand() * 14 : 78 + rand() * 14, y = rand() * 80, len = 6 + rand() * 22; // near the hinges, where spines crack
+    add("linear-gradient(to right, rgba(255,255,255,.28), rgba(255,255,255,.28) 50%, rgba(0,0,0,.14) 50%)", `2px ${len}%`, `${x}% ${y}%`);
+  }
+  const layer = document.createElement("span");
+  layer.className = "wear";
+  layer.style.cssText = `background-image:${img.join(",")};background-size:${size.join(",")};background-position:${pos.join(",")}`;
+  return layer;
+}
+
+// A flat book lying in a stack: the same spine, turned on its side.
+function makeFlat(b, sp) {
+  const f = document.createElement("div");
+  f.className = "flat";
+  f.style.width = `${sp.h}px`;
+  f.style.height = `${sp.w}px`;
+  f.style.marginLeft = `${hash(b.id) % 9}px`;
+  return f;
 }
 
 function render() {
+  hideTip();
+  const k = scale();
+  const side = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--side"));
+  const avail = shelves.clientWidth - side * 2;
+  const gap = innerWidth < 720 ? 28 : 56;
+
+  // sections, each with its books and (for larger sections) a stack of two or three flat books at the end
   const bySection = new Map();
-  for (const b of books) (bySection.get(b.section) || bySection.set(b.section, []).get(b.section)).push(b);
-  $("#count").textContent = `${books.length}`;
-  $("#sections").innerHTML = "";
-  shelves.innerHTML = "";
-  for (const [section, list] of bySection) {
-    const a = document.createElement("a");
-    a.href = `#${slug(section)}`;
-    a.textContent = section;
-    $("#sections").append(a);
-
-    const shelf = document.createElement("section");
-    shelf.className = "shelf";
-    shelf.id = slug(section);
-    shelf.innerHTML = `<h2>${section} <small>${list.length}</small></h2>`;
-    const rows = document.createElement("div");
-    rows.className = "rows";
-    for (const b of list) {
-      const look = (b.look = spineLook(b));
-      const slot = document.createElement("div");
-      slot.className = "slot";
-      const s = document.createElement("button");
-      s.className = `spine ${look.font} ${look.deco}${b.de ? " de" : ""}`;
-      s.style.cssText = `--w:${look.w}px;--h:${look.h}px;--c:${look.c};--t:${look.t};--fs:${look.fs}px`;
-      s.setAttribute("aria-label", b.author ? `${b.title} by ${b.author}` : b.title);
-      s.append(spineInner(b));
-      s.addEventListener("click", () => { hideTip(); openBook(b, s); });
-      s.addEventListener("mouseenter", () => showTip(b, s));
-      s.addEventListener("mouseleave", hideTip);
-      s.addEventListener("focus", () => s.matches(":focus-visible") && showTip(b, s));
-      s.addEventListener("blur", hideTip);
-      b.el = s;
-      slot.append(s);
-      rows.append(slot);
-    }
-    // the last book leans against a bookend
-    const end = document.createElement("div");
-    end.className = "bookend";
-    rows.append(end);
-    list[list.length - 1].el.classList.add("lean");
-    shelf.append(rows);
-    shelves.append(shelf);
+  for (const b of books) {
+    b.sp = spec(b);
+    if (!bySection.has(b.section)) bySection.set(b.section, { name: b.section, books: [] });
+    bySection.get(b.section).books.push(b);
   }
-  decorate();
-}
+  const sections = [...bySection.values()];
+  for (const s of sections) s.books.sort((a, c) => a.title.localeCompare(c.title));
+  for (const s of sections) {
+    s.stack = [];
+    if (s.books.length >= 8) {
+      const n = s.books.length >= 20 ? 3 : 2;
+      const pool = s.books.slice(1).filter((b) => b.sp.heightMm <= 250 && b.sp.thickMm <= 40)
+        .sort((a, c) => hash(a.id + "s") - hash(c.id + "s")).slice(0, n);
+      s.stack = pool.sort((a, c) => c.sp.heightMm - a.sp.heightMm);
+      for (const b of s.stack) {
+        if (b.sp.layout === "horiz") b.sp.layout = "classic";
+        b.sp.wrap = false;
+      }
+    }
+    s.upright = s.books.filter((b) => !s.stack.includes(b));
+    const last = s.upright[s.upright.length - 1];
+    if (!s.stack.length && last && hash(last.id + "lean") % 3 === 0) last.sp.lean = true;
+  }
 
-// A plant or a globe at the end of a shelf row with room to spare; one per shelf at most.
-const ORNAMENTS = [
-  `<svg width="78" height="96" viewBox="0 0 78 96" aria-hidden="true"><path d="M39 58c-2-14-12-22-24-24 6 10 12 18 24 24z" fill="#4f7a3e"/><path d="M39 58c1-16 9-28 22-33-4 12-10 24-22 33z" fill="#5f8f47"/><path d="M39 60c-6-18-4-34 4-46 4 14 2 30-4 46z" fill="#6aa04f"/><path d="M39 60c-10-8-24-8-32-2 10 4 21 5 32 2z" fill="#43693a"/><path d="M39 60c9-9 22-11 31-6-9 5-20 7-31 6z" fill="#4f7a3e"/><path d="M20 62h38l-5 32H25z" fill="#b5613f"/><path d="M18 58h42v7H18z" fill="#c9734d"/><path d="M25 94h28" stroke="#7d3f27" stroke-width="2"/></svg>`,
-  `<svg width="70" height="96" viewBox="0 0 70 96" aria-hidden="true"><circle cx="35" cy="40" r="26" fill="#3d6b7a"/><path d="M22 24c6 2 9 7 7 12s-8 5-9 11 4 9 2 13M44 18c-3 6 1 9 6 10s6 7 3 11M40 50c4 1 8 4 7 9" stroke="#c9b37a" stroke-width="5" fill="none" stroke-linecap="round" opacity=".85"/><circle cx="35" cy="40" r="26" fill="none" stroke="#1f3b44" stroke-width="2"/><path d="M35 8a32 32 0 0 1 0 64" stroke="#b8924a" stroke-width="3" fill="none"/><path d="M35 72v12" stroke="#8a6a2f" stroke-width="4"/><path d="M20 92c0-6 7-9 15-9s15 3 15 9z" fill="#a07b3c"/></svg>`,
-];
-function decorate() {
-  [...shelves.querySelectorAll(".rows")].forEach((rows, i) => {
-    rows.querySelector(".ornament")?.remove();
-    const end = rows.querySelector(".bookend");
-    const gap = rows.getBoundingClientRect().right - end.getBoundingClientRect().right - 12;
-    if (gap < 160) return;
-    const o = document.createElement("div");
-    o.className = "ornament";
-    o.innerHTML = ORNAMENTS[i % ORNAMENTS.length];
-    o.style.top = `${end.offsetTop + end.offsetHeight - 96}px`; // standing on the board, beside the bookend's row
-    rows.append(o);
+  // pack sections onto shelves; a section that doesn't fit what's left of a shelf starts a new one,
+  // and one longer than a whole shelf continues on the next
+  const rows = [];
+  let row = null;
+  const newRow = () => rows.push((row = { segs: [], used: 0 }));
+  newRow();
+  for (const s of sections) {
+    const units = s.upright.map((b) => ({ kind: "book", b, w: b.sp.w + (b.sp.lean ? b.sp.h * 0.07 : 0) }));
+    if (s.stack.length) units.push({ kind: "stack", books: s.stack, w: Math.max(...s.stack.map((b) => b.sp.h)) + 18 });
+    const total = units.reduce((n, u) => n + u.w, 0);
+    const lead = () => (row.segs.length ? gap : 0);
+    if (row.used + lead() + total > avail && row.segs.length && total <= avail) newRow();
+    let seg = null, first = true;
+    for (const u of units) {
+      if (!seg || row.used + u.w > avail) {
+        if (seg) newRow();
+        else if (row.used + lead() + Math.min(u.w * 4, total) > avail && row.segs.length) newRow();
+        row.used += lead();
+        seg = { name: s.name, label: first, units: [] };
+        first = false;
+        row.segs.push(seg);
+      }
+      seg.units.push(u);
+      row.used += u.w;
+    }
+  }
+
+  shelves.innerHTML = "";
+  $("#sections").innerHTML = "";
+  $("#count").textContent = `${books.length}`;
+  rows.forEach((r, ri) => {
+    const el = document.createElement("div");
+    el.className = "shelfrow";
+    let tallest = 0;
+    const line = document.createElement("div");
+    line.className = "books";
+    for (const seg of r.segs) {
+      const segEl = document.createElement("div");
+      segEl.className = "seg";
+      if (seg.label) {
+        segEl.id = slug(seg.name);
+        const lab = document.createElement("span");
+        lab.className = "seg-label";
+        lab.textContent = seg.name;
+        segEl.append(lab);
+        const a = document.createElement("a");
+        a.href = `#${segEl.id}`;
+        a.textContent = seg.name;
+        $("#sections").append(a);
+      }
+      for (const u of seg.units) {
+        if (u.kind === "book") {
+          const s = makeSpine(u.b, u.b.sp);
+          if (u.b.sp.lean && u === seg.units[seg.units.length - 1]) s.classList.add("lean");
+          wire(u.b, s, s, false);
+          segEl.append(s);
+          tallest = Math.max(tallest, u.b.sp.h);
+        } else {
+          const st = document.createElement("div");
+          st.className = "stack";
+          st.style.width = `${u.w - 10}px`;
+          let height = 0;
+          for (const b of u.books) {
+            const f = makeFlat(b, b.sp);
+            const s = makeSpine(b, b.sp);
+            f.append(s);
+            wire(b, f, s, true);
+            st.append(f);
+            height += b.sp.w;
+          }
+          segEl.append(st);
+          tallest = Math.max(tallest, height);
+        }
+      }
+      line.append(segEl);
+    }
+    el.style.setProperty("--rh", `${tallest + 36 * k}px`);
+    el.append(line);
+    const board = document.createElement("div");
+    board.className = "board";
+    el.append(board);
+    shelves.append(el);
   });
+  if (document.fonts.status === "loaded") fitTitles();
 }
 
-// The small panel above a spine on hover or keyboard focus: title, author, year and section.
-const tip = $("#tip");
-function showTip(b, el) {
-  if (open || !matchMedia("(hover: hover)").matches && !el.matches(":focus-visible")) return;
+// Shrink lettering that doesn't fit its spine; past the floor the title ends in an ellipsis.
+function fitTitles() {
+  for (const t of shelves.querySelectorAll(".sp-title, .sp-author")) {
+    const horiz = !t.classList.contains("v");
+    const vertNoWrap = !horiz && !t.classList.contains("wrap");
+    let size = parseFloat(getComputedStyle(t).fontSize);
+    const floor = horiz ? 6.5 : Math.max(7, size * 0.72);
+    const over = () => vertNoWrap ? t.scrollHeight > t.clientHeight + 1
+      : t.scrollWidth > t.clientWidth + 1 || t.scrollHeight > t.clientHeight + 1;
+    while (over() && size > floor) {
+      size -= 0.5;
+      t.style.fontSize = `${size}px`;
+    }
+    if (horiz && over()) t.classList.add("brk"); // still too wide at the floor: let long words break
+  }
+}
+
+function wire(b, el, spineEl, flat) {
+  b.el = el;
+  b.spineEl = spineEl;
+  b.flat = flat;
+  spineEl.addEventListener("click", () => { hideTip(); openBook(b); });
+  spineEl.addEventListener("mouseenter", () => showTip(b));
+  spineEl.addEventListener("mouseleave", hideTip);
+  spineEl.addEventListener("focus", () => spineEl.matches(":focus-visible") && showTip(b));
+  spineEl.addEventListener("blur", hideTip);
+}
+
+// The small panel above a book on hover or keyboard focus: title, author, year and section.
+function showTip(b) {
+  if (open || (!matchMedia("(hover: hover)").matches && !b.spineEl.matches(":focus-visible"))) return;
   tip.querySelector(".tip-title").textContent = b.title;
   tip.querySelector(".tip-author").textContent = b.author || "";
   tip.querySelector(".tip-meta").textContent = [b.year, b.section].filter(Boolean).join(" · ");
   tip.hidden = false;
-  const r = el.getBoundingClientRect(), t = tip.getBoundingClientRect();
-  const lift = 8; // the spine rises on hover
+  const r = b.el.getBoundingClientRect(), t = tip.getBoundingClientRect();
+  const lift = b.flat ? 0 : 7;
   const cx = r.left + r.width / 2;
   const left = Math.min(Math.max(12, cx - t.width / 2), innerWidth - t.width - 12);
   const below = r.top - lift - t.height - 12 < 8;
-  const top = below ? r.bottom + 12 : r.top - lift - t.height - 12;
   tip.classList.toggle("below", below);
   tip.style.setProperty("--ax", `${cx - left}px`);
-  tip.style.transform = "";
   tip.style.left = `${left}px`;
-  tip.style.top = `${top}px`;
+  tip.style.top = `${below ? r.bottom + 12 : r.top - lift - t.height - 12}px`;
   requestAnimationFrame(() => tip.classList.add("show"));
 }
 function hideTip() {
@@ -148,12 +359,12 @@ function layout(b) {
   return { W, H, cx: vw / 2, cy: 32 + H / 2, note: { left: 20, width: vw - 40, top: 32 + H + 28 } };
 }
 
-function buildBook(b, L, D) {
-  const { W, H } = L, look = b.look;
+function buildBook(b, L, D, s0) {
+  const { W, H } = L, sp = b.sp;
   book3d.style.width = `${W}px`;
   book3d.style.height = `${H}px`;
-  book3d.style.setProperty("--c", look.c);
-  book3d.style.setProperty("--t", look.t);
+  book3d.style.setProperty("--c", sp.bg);
+  book3d.style.setProperty("--t", sp.ink);
   book3d.innerHTML = "";
   const face = (cls, css) => {
     const f = document.createElement("div");
@@ -163,7 +374,7 @@ function buildBook(b, L, D) {
     return f;
   };
   const front = face("front", `transform: translateZ(${D / 2}px)`);
-  if (b.cover) front.style.backgroundImage = `url(covers/${b.id}.jpg)`;
+  if (b.cover) front.style.backgroundImage = `url(/covers/${b.id}.jpg)`;
   else {
     front.classList.add("generated");
     front.style.fontSize = `${W / 16}px`;
@@ -172,10 +383,13 @@ function buildBook(b, L, D) {
     front.lastChild.textContent = b.author || "";
   }
   face("back", `transform: rotateY(180deg) translateZ(${D / 2}px)`);
-  const s0 = b.el.getBoundingClientRect().height / H;
-  const spine = face(`spine-face ${look.font} ${look.deco}${b.de ? " de" : ""}`,
-    `width:${D}px; left:${(W - D) / 2}px; transform: rotateY(-90deg) translateZ(${W / 2}px); font-size:${look.fs / s0}px; padding:${10 / s0}px 0`);
-  spine.append(spineInner(b));
+  // the spine face is a scaled copy of the spine on the shelf, so the first frame matches it exactly
+  const spineFace = face("spine-face", `width:${D}px; left:${(W - D) / 2}px; transform: rotateY(-90deg) translateZ(${W / 2}px)`);
+  const clone = b.spineEl.cloneNode(true);
+  clone.removeAttribute("id");
+  clone.tabIndex = -1;
+  clone.style.transform = `scale(${1 / s0})`;
+  spineFace.append(clone);
   face("pages", `width:${D}px; left:${(W - D) / 2}px; transform: rotateY(90deg) translateZ(${W / 2 - 2}px)`);
   face("edge", `height:${D}px; top:${(H - D) / 2}px; transform: rotateX(90deg) translateZ(${H / 2 - 2}px)`);
   face("edge", `height:${D}px; top:${(H - D) / 2}px; transform: rotateX(-90deg) translateZ(${H / 2 - 2}px)`);
@@ -184,16 +398,19 @@ function buildBook(b, L, D) {
 function makeAnimation(b) {
   const L = layout(b);
   const r = b.el.getBoundingClientRect();
-  const s0 = r.height / L.H;
-  const D = r.width / s0; // book depth, so the spine face matches the spine on the shelf
-  buildBook(b, L, D);
-  const T = (cx, cy, s, rot, z) =>
-    `translate3d(${cx - L.W / 2}px, ${cy - L.H / 2}px, ${z}px) scale3d(${s}, ${s}, ${s}) rotateY(${rot}deg)`;
+  // upright: the spine's height is the book's height; flat: its width is. offset sizes ignore any lean.
+  const ow = b.el.offsetWidth, oh = b.el.offsetHeight;
+  const s0 = (b.flat ? ow : oh) / L.H;
+  const D = (b.flat ? oh : ow) / s0;
+  const rz = b.flat ? -90 : b.el.classList.contains("lean") ? -3.5 : 0;
+  buildBook(b, L, D, s0);
+  const T = (cx, cy, s, rotY, z, rotZ) =>
+    `translate3d(${cx - L.W / 2}px, ${cy - L.H / 2}px, ${z}px) scale3d(${s}, ${s}, ${s}) rotateZ(${rotZ}deg) rotateY(${rotY}deg)`;
   const x0 = r.left + r.width / 2, y0 = r.top + r.height / 2;
   const anim = book3d.animate([
-    { transform: T(x0, y0, s0, 90, (-L.W * s0) / 2), easing: "cubic-bezier(.2,.6,.3,1)" },
-    { transform: T(x0, y0 - 6, s0 * 1.04, 90, (-L.W * s0) / 2 + 140), offset: 0.28, easing: "cubic-bezier(.45,0,.2,1)" },
-    { transform: T(L.cx, L.cy, 1, 0, -D / 2) },
+    { transform: T(x0, y0, s0, 90, (-L.W * s0) / 2, rz), easing: "cubic-bezier(.2,.6,.3,1)" },
+    { transform: T(x0, y0 - 6, s0 * 1.04, 90, (-L.W * s0) / 2 + 140, rz), offset: 0.28, easing: "cubic-bezier(.45,0,.2,1)" },
+    { transform: T(L.cx, L.cy, 1, 0, -D / 2, 0) },
   ], { duration: matchMedia("(prefers-reduced-motion: reduce)").matches ? 1 : 1000, fill: "both" });
   placeNote(L);
   return anim;
@@ -216,14 +433,15 @@ function fillNote(b) {
   $("#note-facts").textContent = b.year ? `First published ${b.year}` : "";
 }
 
-function openBook(b, el) {
+function openBook(b) {
   if (open) return;
   fillNote(b);
   stage.hidden = false;
   book3d.classList.remove("landed");
   const anim = makeAnimation(b);
   open = { b, anim };
-  el.classList.add("out");
+  b.el.classList.add("out");
+  b.spineEl.classList.add("out");
   document.body.classList.add("reading");
   requestAnimationFrame(() => stage.classList.add("open"));
   anim.onfinish = () => {
@@ -242,10 +460,11 @@ function closeBook() {
   stage.classList.remove("ready");
   anim.onfinish = () => {
     b.el.classList.remove("out");
+    b.spineEl.classList.remove("out");
     stage.hidden = true;
     book3d.innerHTML = "";
     open = null;
-    b.el.focus({ preventScroll: true });
+    b.spineEl.focus({ preventScroll: true });
   };
   anim.reverse();
   setTimeout(() => {
@@ -258,22 +477,22 @@ $("#close").addEventListener("click", closeBook);
 stage.addEventListener("click", (e) => { if (e.target.classList.contains("veil")) closeBook(); });
 addEventListener("keydown", (e) => { if (e.key === "Escape") closeBook(); });
 
-let resizeTimer;
+let resizeTimer, lastWidth = innerWidth;
 addEventListener("resize", () => {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
     if (open && !open.closing) {
-      // re-measure from the spine's new place and jump to the end state
       open.anim.cancel();
       open.anim = makeAnimation(open.b);
       open.anim.finish();
       book3d.classList.add("landed");
-    } else if (!open) {
+    } else if (!open && innerWidth !== lastWidth) {
+      lastWidth = innerWidth;
       render();
     }
   }, 150);
 });
 
-fetch("books.json")
+fetch("/books.json")
   .then((r) => r.json())
-  .then((data) => { books = data; render(); document.fonts.ready.then(decorate); });
+  .then((data) => { books = data; render(); document.fonts.ready.then(fitTitles); });
