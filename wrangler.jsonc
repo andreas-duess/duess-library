@@ -1,0 +1,7 @@
+{
+  "name": "duess-library",
+  "compatibility_date": "2026-11-10",
+  // a static site: Cloudflare serves web/public, no Worker code
+  "assets": { "directory": "./web/public", "not_found_handling": "404-page" },
+  "routes": [{ "pattern": "library.duess.com", "custom_domain": true }]
+}

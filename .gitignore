@@ -1,0 +1,5 @@
+node_modules/
+.wrangler/
+data/fetch.log
+data/batch-*.json
+.DS_Store

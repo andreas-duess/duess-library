@@ -1,0 +1,152 @@
+:root {
+  --wall: #26221f;
+  --wall-2: #2f2a26;
+  --ink-on-wall: #efe7da;
+  --muted-on-wall: #a89d8d;
+  --wood: #8a5a36;
+  --wood-light: #b07a4c;
+  --wood-dark: #5a3920;
+  --paper: #ffffff;
+  --ink: #1f1c19;
+  --muted: #6e665c;
+  --accent: #b5523b;
+  --row: 250px;
+  --serif: "Fraunces", Georgia, serif;
+  --sans: "Inter", system-ui, sans-serif;
+  --cond: "Barlow Condensed", "Arial Narrow", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--wall);
+  background-image: radial-gradient(ellipse at 50% -10%, var(--wall-2), var(--wall) 70%);
+  background-attachment: fixed;
+  color: var(--ink-on-wall);
+  font: 16px/1.55 var(--sans);
+}
+body.reading { overflow: hidden; }
+
+#library { max-width: 1240px; margin: 0 auto; padding: 56px 32px 40px; transition: opacity .45s ease; }
+body.reading #library { opacity: 0; }
+
+.masthead { margin-bottom: 48px; }
+.eyebrow { margin: 0 0 6px; font: 600 13px/1 var(--cond); letter-spacing: .18em; text-transform: uppercase; color: var(--muted-on-wall); }
+h1 { margin: 0; font: 600 clamp(44px, 7vw, 76px)/1 var(--serif); letter-spacing: -.02em; }
+.lede { max-width: 34em; margin: 14px 0 22px; color: var(--muted-on-wall); }
+#sections { display: flex; flex-wrap: wrap; gap: 6px 8px; }
+#sections a {
+  font: 500 15px/1 var(--cond); letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink-on-wall); text-decoration: none;
+  padding: 7px 11px; border: 1px solid #4a423b; border-radius: 3px;
+}
+#sections a:hover, #sections a:focus-visible { border-color: var(--wood-light); color: #fff; outline: none; }
+
+/* one shelf per section */
+.shelf { margin: 0 0 44px; scroll-margin-top: 24px; }
+.shelf h2 {
+  display: flex; align-items: baseline; gap: 10px;
+  margin: 0 0 10px; font: 600 19px/1.2 var(--cond); letter-spacing: .1em; text-transform: uppercase;
+}
+.shelf h2 small { font: 400 13px/1 var(--sans); letter-spacing: 0; text-transform: none; color: var(--muted-on-wall); }
+.rows {
+  display: flex; flex-wrap: wrap; align-items: flex-end;
+  padding: 0 14px;
+  /* a wooden board under every row of spines */
+  background:
+    linear-gradient(to bottom, transparent calc(var(--row) - 16px), var(--wood-light) calc(var(--row) - 16px), var(--wood) calc(var(--row) - 10px), var(--wood-dark) calc(var(--row) - 1px), transparent var(--row)) 0 0 / 100% var(--row),
+    linear-gradient(to bottom, transparent 0, rgba(0,0,0,.28) 100%) 0 0 / 100% var(--row);
+  border-radius: 2px;
+}
+.slot { height: var(--row); display: flex; align-items: flex-end; padding-bottom: 16px; }
+
+.spine {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  width: var(--w); height: var(--h); margin: 0 1px;
+  padding: 10px 0; border: 0; border-radius: 2px 2px 1px 1px; cursor: pointer;
+  background: var(--c);
+  color: var(--t);
+  box-shadow: inset 2px 0 2px rgba(255,255,255,.14), inset -3px 0 4px rgba(0,0,0,.28), 0 -1px 0 rgba(0,0,0,.2);
+  transition: transform .18s ease, box-shadow .18s ease;
+  font-size: var(--fs);
+}
+.spine::before, .spine-face::before { /* curved spine shading */
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(to right, rgba(0,0,0,.22), rgba(255,255,255,.08) 30%, rgba(255,255,255,.02) 55%, rgba(0,0,0,.25));
+}
+.spine:hover, .spine:focus-visible { transform: translateY(-8px); box-shadow: inset 2px 0 2px rgba(255,255,255,.14), inset -3px 0 4px rgba(0,0,0,.28), 0 10px 14px -6px rgba(0,0,0,.6); outline: none; }
+.spine:focus-visible { outline: 2px solid var(--ink-on-wall); outline-offset: 2px; }
+.spine.out { visibility: hidden; }
+
+.spine .t {
+  writing-mode: vertical-rl;
+  max-height: 100%;
+  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  line-height: 1; position: relative;
+}
+.de .t { transform: rotate(180deg); } /* German spines read bottom to top */
+.f0 .t { font-family: var(--cond); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+.f1 .t { font-family: var(--serif); font-weight: 600; }
+.f2 .t { font-family: var(--serif); font-weight: 400; font-style: italic; }
+.f3 .t { font-family: var(--sans); font-weight: 500; letter-spacing: .02em; }
+/* small details so the spines don't all look alike */
+.d1::after { content: ""; position: absolute; left: 0; right: 0; top: 9%; height: .2em; background: var(--t); opacity: .55; box-shadow: 0 .45em 0 var(--t); }
+.d2::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 14%; background: rgba(0,0,0,.28); border-radius: 0 0 1px 1px; }
+.d3::after { content: ""; position: absolute; left: 50%; bottom: .5em; width: .5em; height: .5em; margin-left: -.25em; border-radius: 50%; background: var(--t); opacity: .6; }
+
+.foot { margin-top: 24px; font-size: 13px; color: var(--muted-on-wall); }
+.foot a { color: inherit; }
+
+/* reading view */
+#stage { position: fixed; inset: 0; z-index: 10; }
+#stage[hidden] { display: none; }
+.veil { position: absolute; inset: 0; background: var(--paper); opacity: 0; transition: opacity .45s ease; }
+#stage.open .veil { opacity: 1; }
+.scene { position: absolute; inset: 0; perspective: 2200px; pointer-events: none; }
+.book3d { position: absolute; left: 0; top: 0; transform-style: preserve-3d; will-change: transform; }
+.face { position: absolute; left: 0; top: 0; backface-visibility: hidden; }
+.face.front { width: 100%; height: 100%; background: var(--c) center / cover no-repeat; border-radius: 1px 3px 3px 1px; box-shadow: inset 4px 0 6px -2px rgba(0,0,0,.35); }
+.face.front.generated { display: flex; flex-direction: column; justify-content: space-between; padding: 12% 10%; color: var(--t); }
+.face.front.generated .gt { font: 600 1.7em/1.1 var(--serif); }
+.face.front.generated .ga { font: 500 1em/1.2 var(--cond); letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+.face.spine-face { height: 100%; background: var(--c); border-radius: 2px; display: flex; align-items: center; justify-content: center; color: var(--t); overflow: hidden; }
+.face.spine-face .t { writing-mode: vertical-rl; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: 100%; line-height: 1; position: relative; }
+.face.pages { height: 100%; background: repeating-linear-gradient(to right, #f4efe6 0 2px, #e3dccf 2px 3px); }
+.face.back { width: 100%; height: 100%; background: var(--c); filter: brightness(.8); }
+.face.edge { width: 100%; background: repeating-linear-gradient(to bottom, #f4efe6 0 2px, #e3dccf 2px 3px); }
+.book3d.landed .face.front { box-shadow: inset 4px 0 6px -2px rgba(0,0,0,.35), 0 30px 50px -20px rgba(0,0,0,.45), 0 8px 18px -8px rgba(0,0,0,.3); }
+
+.note {
+  position: absolute; color: var(--ink);
+  opacity: 0; transform: translateX(16px);
+  transition: opacity .35s ease, transform .35s ease;
+}
+#stage.ready .note { opacity: 1; transform: none; }
+.close {
+  position: absolute; top: -8px; right: -8px; width: 42px; height: 42px;
+  display: grid; place-items: center; border: 0; border-radius: 50%;
+  background: transparent; color: var(--ink); cursor: pointer;
+}
+.close:hover, .close:focus-visible { background: #f0ece6; outline: none; }
+.note-section { margin: 0 0 12px; font: 600 13px/1 var(--cond); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+.note h2 { margin: 0 44px 6px 0; font: 600 clamp(28px, 3.2vw, 40px)/1.08 var(--serif); letter-spacing: -.015em; }
+.note-author { margin: 0 0 22px; font-size: 17px; color: var(--muted); }
+.note-blurb { margin: 0 0 20px; font-size: 17px; line-height: 1.6; max-width: 32em; }
+.note-mine { margin: 0 0 20px; padding-left: 14px; border-left: 2px solid var(--accent); }
+.note-mine p { margin: 0; }
+.note-label { font: 600 12px/1 var(--cond); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px !important; }
+.note-facts { margin: 0; font-size: 14px; color: var(--muted); }
+
+@media (max-width: 720px) {
+  :root { --row: 200px; }
+  #library { padding: 36px 16px 32px; }
+  .masthead { margin-bottom: 32px; }
+  .rows { padding: 0 6px; }
+  .note h2 { font-size: 26px; }
+  .note-blurb { font-size: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #library, .veil, .note, .spine { transition-duration: .01s; }
+}
