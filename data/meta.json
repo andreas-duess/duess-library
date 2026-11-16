@@ -320,7 +320,12 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 603,
+   "color": "#c4bab9",
+   "source": "andreas"
+  }
  },
  "B258": {
   "pages": 411,
