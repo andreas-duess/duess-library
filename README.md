@@ -4,11 +4,11 @@ whatiamreading.com (formerly library.duess.com): Andreas's home library as a boo
 
 ## Where things are
 
-- `data/library.csv`: the book list. Its source is the vault, `~/Claude/Personal/Library/2026-11-15-library.csv`; copy it over after changes there.
+- `data/library.csv`: the book list (ID, group, section, title, author). The master copy, with shelf locations, is kept privately in Andreas's vault (`~/Claude/Personal/Library/2026-11-15-library.csv`); copy the five public columns over after changes there.
 - `data/notes.json`: Andreas's own comments, `{"B001": "text"}`. They show under "My note" beside the blurb.
 - `data/blurbs-*.json`: two-sentence neutral descriptions. `BLURB_FIXES` in `pipeline/build.py` overrides single books.
 - `data/meta.json`: cover size, colour, page count and first-publication year per book, written by `fetch_covers.py`.
-- `web/public/`: the site (plain HTML, CSS and JS). `covers/` holds our own copies of the covers, 500px wide.
+- `web/public/`: the site (plain HTML, CSS and JS). `covers/` holds the cover images, 500px wide. They are not in this repository (they belong to their publishers); `fetch_covers.py`, `fill_covers.py` and `add_cover.py` rebuild the folder.
 
 ## Rebuild
 
@@ -41,3 +41,7 @@ Wrangler on the Mac Mini is logged in to that account (OAuth).
 Local preview: `npx wrangler@4 dev` (serves the site and the Worker).
 
 Social card: `web/public/social-card.jpg`, rendered from the page by `pipeline/social-card.mjs` (instructions at its top). Re-render after visible design changes.
+
+## Make your own
+
+The code is MIT-licensed; use it for your own shelf. Put your books in `data/library.csv` (same five columns), run the three pipeline steps under Rebuild to fetch covers and build `books.json`, write blurbs into `data/blurbs-1.json`, and deploy to your own Cloudflare account after changing the names, domains and the D1 database in `wrangler.jsonc`. The book descriptions in `data/blurbs-*.json` were written for this site; please write your own.

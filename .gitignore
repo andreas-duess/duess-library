@@ -6,3 +6,5 @@ data/batch-*.json
 .dev.vars
 data/fill.log
 data/cover-candidates/
+web/public/covers/
+__pycache__/
