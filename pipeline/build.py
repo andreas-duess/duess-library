@@ -19,6 +19,7 @@ BLURB_FIXES = {
     "B106": "A German-language illustrated book about cats.",
     "B169": "Strandkorbkrimis is a German-language anthology of short crime stories set on the Baltic coast, where the hooded beach chair, or Strandkorb, is a familiar sight.",
     "B209": "",
+    "B174": "Sailing a Serious Ocean is a sailing book by John Kretschmer, a professional offshore skipper. It draws on 30 years at sea: the boats, the storms, the crews, and the lessons learned on ocean crossings.",
     "B178": "Dispatches from the Front is David Halton's biography of his father, Matthew Halton, the CBC correspondent whose radio reports from the Second World War made him one of the best-known voices in Canada.",
     "B255": "The Get is a crime novel by the Canadian author Dietrich Kalteis, published by ECW Press.",
     "B070": "Montenegro is a 1997 novel by Starling Lawrence, an American editor and writer. Its story is set in the Balkans in the years before the First World War.",

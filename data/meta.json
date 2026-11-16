@@ -1947,7 +1947,12 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 795,
+   "color": "#747078",
+   "source": "andreas"
+  }
  },
  "B278": {
   "pages": 240,
