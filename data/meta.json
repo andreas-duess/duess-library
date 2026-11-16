@@ -111,14 +111,24 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 619,
+   "color": "#54595d",
+   "source": "andreas"
+  }
  },
  "B292": {
   "pages": null,
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 318,
+   "h": 411,
+   "color": "#a88c80",
+   "source": "andreas"
+  }
  },
  "B261": {
   "pages": 220,
