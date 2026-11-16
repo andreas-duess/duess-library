@@ -1959,7 +1959,12 @@
   "year": 1800,
   "ol": "/works/OL63982W",
   "ol_title": "A tour on the prairies",
-  "cover": null
+  "cover": {
+   "w": 298,
+   "h": 477,
+   "color": "#8c938a",
+   "source": "andreas"
+  }
  },
  "B302": {
   "pages": 207,
