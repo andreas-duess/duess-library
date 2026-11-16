@@ -1676,7 +1676,12 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 326,
+   "h": 500,
+   "color": "#6a5c8e",
+   "source": "andreas"
+  }
  },
  "B299": {
   "pages": 759,
