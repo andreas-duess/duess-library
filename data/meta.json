@@ -62,14 +62,26 @@
   "year": 2017,
   "ol": "/works/OL20052492W",
   "ol_title": "Dinner",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 621,
+   "color": "#a08a70",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication113/v4/40/fd/81/40fd813c-8713-9e0f-f38b-481a993ded26/9780553448245.jpg/800x1200bb.jpg"
+  }
  },
  "B248": {
   "pages": 159,
   "year": 2017,
   "ol": "/works/OL19725681W",
   "ol_title": "Dinner in an instant",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 636,
+   "color": "#987c78",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication124/v4/64/4b/f1/644bf122-d791-3b11-4a8c-03808914f243/9781524762971.d.jpg/800x1200bb.jpg"
+  }
  },
  "B276": {
   "pages": null,
@@ -130,7 +142,13 @@
   "year": 2011,
   "ol": "/works/OL16002248W",
   "ol_title": "Home made",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 644,
+   "color": "#774845",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication221/v4/d1/4f/24/d14f24cd-7df2-86a0-a0b3-30664da1a62c/1058753888.jpg/800x1200bb.jpg"
+  }
  },
  "B192": {
   "pages": 176,
@@ -184,7 +202,13 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 691,
+   "color": "#f8e78b",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication118/v4/d3/6a/ad/d36aadb9-5afa-903c-a449-037b5d128757/9782017055877-001-X.jpeg/800x1200bb.jpg"
+  }
  },
  "B239": {
   "pages": null,
@@ -253,7 +277,13 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 692,
+   "color": "#dc1e11",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication114/v4/45/5d/f2/455df251-e378-efeb-7304-b60a78106f87/9781984858481.d.jpg/800x1200bb.jpg"
+  }
  },
  "B247": {
   "pages": null,
@@ -483,7 +513,13 @@
   "year": 2016,
   "ol": "/works/OL20029401W",
   "ol_title": "Kay's lucky coin variety",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 760,
+   "color": "#a88296",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication221/v4/ac/39/6c/ac396c24-9f4f-758f-7dea-20e65f966f4b/9781476748061.jpg/800x1200bb.jpg"
+  }
  },
  "B158": {
   "pages": 320,
@@ -523,7 +559,13 @@
   "year": 2007,
   "ol": "/works/OL38640783W",
   "ol_title": "Selected Poems",
-  "cover": null
+  "cover": {
+   "w": 297,
+   "h": 475,
+   "color": "#c6c6bb",
+   "source": "openlibrary",
+   "url": "https://covers.openlibrary.org/b/id/376526-L.jpg"
+  }
  },
  "B027": {
   "pages": 299,
@@ -592,7 +634,13 @@
   "year": 1990,
   "ol": "/works/OL1855904W",
   "ol_title": "The Innocent",
-  "cover": null
+  "cover": {
+   "w": 467,
+   "h": 720,
+   "color": "#86837d",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication/4a/1c/54/mzi.tjtisfwi.jpg/800x1200bb.jpg"
+  }
  },
  "B274": {
   "pages": 371,
@@ -694,21 +742,39 @@
   "year": 2018,
   "ol": "/works/OL32437760W",
   "ol_title": "The wind-up bird chronicle",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 771,
+   "color": "#3f5993",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/a2/4e/83/a24e83f1-8abb-84ff-be4e-b367b5d9c475/9780307762702.d.jpg/800x1200bb.jpg"
+  }
  },
  "B182": {
   "pages": null,
   "year": 2009,
   "ol": "/works/OL5738675W",
   "ol_title": "Through black spruce",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 755,
+   "color": "#c0c2be",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication/94/10/07/mzi.rthfllpd.jpg/800x1200bb.jpg"
+  }
  },
  "B133": {
   "pages": 528,
   "year": 2000,
   "ol": "/works/OL481143W",
   "ol_title": "White Teeth",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 771,
+   "color": "#e0d3d9",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/78/b6/b9/78b6b95d-5411-e1ac-f1eb-dbb35bcd48fa/9781400075508.d.jpg/800x1200bb.jpg"
+  }
  },
  "B295": {
   "pages": 336,
@@ -759,7 +825,13 @@
   "year": 2025,
   "ol": "/works/OL42445639W",
   "ol_title": "Clown Town",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 750,
+   "color": "#746b7c",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication221/v4/4e/ea/ba/4eeabad6-6447-fda0-05bd-54a19a2e27bd/9781641297271.d.jpg/800x1200bb.jpg"
+  }
  },
  "B318": {
   "pages": 380,
@@ -806,7 +878,13 @@
   "year": 2001,
   "ol": "/works/OL26734618W",
   "ol_title": "Faceless Killers",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 733,
+   "color": "#535357",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/d6/dc/25/d6dc25b7-f4a9-a019-8b91-8c97a34aa75a/1058761808.jpg/800x1200bb.jpg"
+  }
  },
  "B201": {
   "pages": 416,
@@ -1047,7 +1125,13 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 775,
+   "color": "#59353a",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication126/v4/23/7e/70/237e70d2-a3f1-2a67-f13a-53e7aa761fff/9781778521140.jpg/800x1200bb.jpg"
+  }
  },
  "B009": {
   "pages": 664,
@@ -1065,7 +1149,13 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 771,
+   "color": "#d2c659",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication122/v4/8b/e4/c9/8be4c93d-7638-0d1e-0fe2-e67eccfe8740/9780307272119.jpg/800x1200bb.jpg"
+  }
  },
  "B224": {
   "pages": 448,
@@ -1259,7 +1349,13 @@
   "year": 1743,
   "ol": "/works/OL27257W",
   "ol_title": "Virtual light",
-  "cover": null
+  "cover": {
+   "w": 438,
+   "h": 720,
+   "color": "#3b2b29",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication/v4/c8/66/a8/c866a8ac-088b-26a7-425c-f60ef592d971/9780307831187.jpg/800x1200bb.jpg"
+  }
  },
  "B314": {
   "pages": 447,
@@ -1361,14 +1457,26 @@
   "year": 1954,
   "ol": "/works/OL27448W",
   "ol_title": "The Lord of the Rings",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 750,
+   "color": "#221814",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication116/v4/9c/54/5f/9c545feb-10e0-ecbe-a689-0c8645431182/9780547951942.jpg/800x1200bb.jpg"
+  }
  },
  "B326": {
   "pages": 499,
   "year": 1950,
   "ol": "/works/OL27455W",
   "ol_title": "The Return of the King",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 750,
+   "color": "#1c1d14",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication126/v4/96/db/d5/96dbd507-dfac-6ff2-e24b-3f3fc2edbb33/9780547952048.jpg/800x1200bb.jpg"
+  }
  },
  "B058": {
   "pages": 392,
@@ -1419,7 +1527,13 @@
   "year": 2000,
   "ol": "/works/OL8995682W",
   "ol_title": "Baudolino",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 764,
+   "color": "#9c9b80",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/3a/64/42/3a6442dc-d45b-8e16-5ba3-bd053a711206/1058130640.jpg/800x1200bb.jpg"
+  }
  },
  "B196": {
   "pages": 500,
@@ -1525,7 +1639,13 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 771,
+   "color": "#3e3732",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/1f/93/02/1f9302ba-553e-f81a-34cb-69f36976001c/9780307386465.d.jpg/800x1200bb.jpg"
+  }
  },
  "B220": {
   "pages": null,
@@ -1543,7 +1663,13 @@
   "year": null,
   "ol": "/works/OL36774141W",
   "ol_title": "The Radetzky March",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 753,
+   "color": "#c6a26b",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/9b/08/65/9b0865c7-e221-358e-93d4-bdb37db52747/1058733427.jpg/800x1200bb.jpg"
+  }
  },
  "B226": {
   "pages": null,
@@ -1568,7 +1694,13 @@
   "year": 2015,
   "ol": "/works/OL19713558W",
   "ol_title": "Can holding in a fart kill you?",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 787,
+   "color": "#e1dbc7",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/40/a0/7f/40a07fbf-48f3-cf70-8ea4-0dfde4b1cf68/1058744119.jpg/800x1200bb.jpg"
+  }
  },
  "B101": {
   "pages": 2688,
@@ -1622,7 +1754,13 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 366,
+   "h": 500,
+   "color": "#acad96",
+   "source": "openlibrary",
+   "url": "https://covers.openlibrary.org/b/id/863485-L.jpg"
+  }
  },
  "B194": {
   "pages": 496,
@@ -1717,7 +1855,13 @@
   "year": 2000,
   "ol": "/works/OL43107515W",
   "ol_title": "london the biography",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 756,
+   "color": "#6b655c",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication115/v4/e8/13/74/e8137498-e4f8-9376-03ca-0030a0d7e8e2/9781400075515.jpg/800x1200bb.jpg"
+  }
  },
  "B210": {
   "pages": 448,
@@ -1746,7 +1890,13 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 760,
+   "color": "#dfd9cf",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication62/v4/49/1d/57/491d577a-44d3-588b-3541-945b9d2526ee/mzm.aiqduaof.jpg/800x1200bb.jpg"
+  }
  },
  "B191": {
   "pages": 377,
@@ -1764,14 +1914,26 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 769,
+   "color": "#bab8b9",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication114/v4/ab/33/13/ab331338-e6f6-3666-a4c3-2a01e3b434f2/9781925938722.jpg/800x1200bb.jpg"
+  }
  },
  "B270": {
   "pages": null,
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 333,
+   "h": 500,
+   "color": "#7c626d",
+   "source": "openlibrary",
+   "url": "https://covers.openlibrary.org/b/id/8808770-L.jpg"
+  }
  },
  "B204": {
   "pages": 149,
@@ -2011,7 +2173,13 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 330,
+   "h": 500,
+   "color": "#e5e3e3",
+   "source": "openlibrary",
+   "url": "https://covers.openlibrary.org/b/id/6307418-L.jpg"
+  }
  },
  "B007": {
   "pages": 288,
@@ -2040,7 +2208,13 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 750,
+   "color": "#5e99a5",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/c1/da/99/c1da99ec-8163-6b5e-4f8f-615d1c564c43/9780593833681.d.jpg/800x1200bb.jpg"
+  }
  },
  "B197": {
   "pages": 245,
@@ -2080,14 +2254,26 @@
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 333,
+   "h": 500,
+   "color": "#ded8d0",
+   "source": "openlibrary",
+   "url": "https://covers.openlibrary.org/b/id/8663211-L.jpg"
+  }
  },
  "B251": {
   "pages": null,
   "year": null,
   "ol": null,
   "ol_title": null,
-  "cover": null
+  "cover": {
+   "w": 333,
+   "h": 500,
+   "color": "#837f7f",
+   "source": "openlibrary",
+   "url": "https://covers.openlibrary.org/b/id/8315355-L.jpg"
+  }
  },
  "B288": {
   "pages": null,
@@ -2112,7 +2298,13 @@
   "year": 2017,
   "ol": "/works/OL20052348W",
   "ol_title": "The entrepreneur's playbook",
-  "cover": null
+  "cover": {
+   "w": 500,
+   "h": 755,
+   "color": "#dc2824",
+   "source": "apple",
+   "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication115/v4/42/e1/fc/42e1fc0a-1b08-2fd3-ece8-ac317ac4c7d5/9780814438183.jpg/800x1200bb.jpg"
+  }
  },
  "B001": {
   "pages": 384,
@@ -2181,7 +2373,13 @@
   "year": 2013,
   "ol": "/works/OL27112254W",
   "ol_title": "Keep Out! : Build Your Own Backyard Clubhouse",
-  "cover": null
+  "cover": {
+   "w": 347,
+   "h": 400,
+   "color": "#9cae83",
+   "source": "openlibrary",
+   "url": "https://covers.openlibrary.org/b/id/7738659-L.jpg"
+  }
  },
  "B183": {
   "pages": 400,

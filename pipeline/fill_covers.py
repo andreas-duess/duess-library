@@ -4,9 +4,10 @@ accept good ones with retry_covers.py --accept ID ...
 
 Order of sources, first hit wins:
   1. Open Library, looser: title without subtitle, title alone, and the author's works matched by title
-  2. ISBNs from Google Books (asked slowly), cover from Open Library by ISBN
+  2. Apple Books (the public iTunes search, e-book editions), sharp covers up to 800x1200
   3. Deutsche Nationalbibliothek cover service by ISBN (German books)
-  4. Google Books' own cover image, as a last resort (marked source "google")
+  4. Goodreads covers through bookcover.longitood.com, as a last resort
+Google Books is left out: without an API key it refuses after a few requests.
 
     uv run --with pillow pipeline/fill_covers.py            # every book without a cover
     uv run --with pillow pipeline/fill_covers.py B010 B232  # just these
@@ -46,25 +47,26 @@ def ol_candidates(b):
     return found
 
 
-def google(b):
-    """ISBNs and the best cover image URL from Google Books for the matching volumes."""
-    q = f'intitle:"{b["title"].split(":")[0]}"' + (f' inauthor:"{first_author(b)}"' if b["author"] else "")
-    res = None
-    for attempt in range(4):
-        res = get("https://www.googleapis.com/books/v1/volumes?" + urllib.parse.urlencode({"q": q, "maxResults": 10, "printType": "books"}))
-        if res is not None:
-            break
-        time.sleep(5 + attempt * 5)
-    isbns, images = [], []
-    for item in (res or {}).get("items", []):
-        v = item.get("volumeInfo", {})
-        full = v.get("title", "") + (": " + v["subtitle"] if v.get("subtitle") else "")
-        if max(title_score(b["title"], full), title_score(b["title"].split(":")[0], v.get("title", ""))) < 0.9:
-            continue
-        isbns += [i["identifier"] for i in v.get("industryIdentifiers", []) if i["type"].startswith("ISBN")]
-        if v.get("imageLinks"):
-            images.append(f"https://books.google.com/books/content?id={item['id']}&printsec=frontcover&img=1&zoom=0")
-    return isbns, images
+def apple(b):
+    """Cover images from Apple Books (the public iTunes search), for e-book editions whose title and author match."""
+    author = first_author(b)
+    term = f'{b["title"].split(":")[0]} {author.split()[-1] if author else ""}'.strip()
+    res = get("https://itunes.apple.com/search?" + urllib.parse.urlencode({"term": term, "media": "ebook", "limit": 15})) or {}
+    out = []
+    for r in res.get("results", []):
+        score = max(title_score(b["title"], r.get("trackName")), title_score(b["title"].split(":")[0], r.get("trackName")))
+        same_author = bool(author) and author.split()[-1].lower() in (r.get("artistName") or "").lower()
+        if r.get("artworkUrl100") and (score >= 0.9 or (score >= 0.5 and same_author)) and (same_author or not author):
+            out.append((score, r["artworkUrl100"].replace("100x100bb", "800x1200bb")))
+    out.sort(key=lambda x: -x[0])
+    return [u for _, u in out]
+
+
+def bookcover_api(b):
+    """Goodreads covers through the bookcover.longitood.com service."""
+    q = {"book_title": b["title"].split(":")[0], "author_name": first_author(b)}
+    res = get("https://bookcover.longitood.com/bookcover?" + urllib.parse.urlencode(q)) or {}
+    return [res["url"]] if res.get("url") else []
 
 
 def try_one(i):
@@ -80,23 +82,22 @@ def try_one(i):
     for score, cid, _ in ol_candidates(b)[:4]:
         if keep(f"https://covers.openlibrary.org/b/id/{cid}-L.jpg", "openlibrary"):
             return "openlibrary"
-    isbns, images = google(b)
-    time.sleep(1.5)
+    for url in apple(b)[:3]:
+        if keep(url, "apple"):
+            return "apple"
+    isbns = [isbn for _, _, ib in ol_candidates(b) for isbn in ib] if b.get("de") else []
     for isbn in isbns[:8]:
-        if keep(f"https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg?default=false", "openlibrary-isbn"):
-            return "openlibrary-isbn"
-    if b.get("de") or any(isbn.startswith(("3", "9783")) for isbn in isbns):
-        for isbn in isbns[:8]:
-            if keep(f"https://portal.dnb.de/opac/mvb/cover?isbn={isbn}", "dnb"):
-                return "dnb"
-    for url in images[:3]:
-        if keep(url, "google"):
-            return "google"
+        if keep(f"https://portal.dnb.de/opac/mvb/cover?isbn={isbn}", "dnb"):
+            return "dnb"
+    if b["author"]:
+        for url in bookcover_api(b):
+            if keep(url, "goodreads"):
+                return "goodreads"
     return None
 
 
 if __name__ == "__main__":
     CAND.mkdir(exist_ok=True)
-    ids = sys.argv[1:] or [i for i, m in meta.items() if not m.get("cover") and i in books]
+    ids = sys.argv[1:] or [i for i, m in meta.items() if not m.get("cover") and i in books and not (CAND / f"{i}.jpg").exists()]
     for i in ids:
         print(i, try_one(i) or "-----", books[i]["title"], flush=True)
