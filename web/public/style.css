@@ -249,21 +249,52 @@ body.panel-open { overflow: hidden; }
 /* reading view */
 #stage { position: fixed; inset: 0; z-index: 10; }
 #stage[hidden] { display: none; }
-.veil { position: absolute; inset: 0; background: var(--page); opacity: 0; transition: opacity .45s ease; }
+.veil { position: absolute; inset: 0; overflow: hidden; background: var(--page); opacity: 0; transition: opacity .45s ease; }
 #stage.open .veil { opacity: 1; }
+/* each book brings its own light: its cover, blown up and blurred, washed over the white page */
+.ambient { position: absolute; inset: -15%; background: var(--amb, transparent) center / cover no-repeat; filter: blur(70px) saturate(1.5); opacity: 0; transform: scale(1.1); transition: opacity .9s ease .15s, transform 1.6s cubic-bezier(.2,.6,.3,1); }
+#stage.open .ambient { opacity: .34; transform: none; }
+.floor { position: absolute; border-radius: 50%; background: radial-gradient(closest-side, rgba(28,20,12,.34), rgba(28,20,12,.12) 60%, transparent); filter: blur(6px); opacity: 0; transition: opacity .6s ease; pointer-events: none; }
+#stage.ready .floor { opacity: 1; }
+.hint { position: absolute; margin: 0; font: 500 12px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); opacity: 0; transition: opacity .6s ease .4s; pointer-events: none; white-space: nowrap; transform: translateX(-50%); }
+#stage.ready .hint { opacity: .8; }
+#stage.turned .hint { opacity: 0; transition-delay: 0s; }
 .scene { position: absolute; inset: 0; perspective: 2200px; pointer-events: none; }
 .book3d { position: absolute; left: 0; top: 0; transform-style: preserve-3d; will-change: transform; }
-.face { position: absolute; left: 0; top: 0; backface-visibility: hidden; }
+.tilt3d { position: absolute; inset: 0; transform-style: preserve-3d; will-change: transform; touch-action: none; }
+.book3d.landed .tilt3d { pointer-events: auto; cursor: grab; }
+.book3d.dragging .tilt3d { cursor: grabbing; }
+.face { position: absolute; left: 0; top: 0; backface-visibility: hidden; overflow: hidden; }
+/* light: .shade darkens a face as it turns away from the lamp (above, to the right, in front); .gloss is the sheen that slides across the boards */
+.shade, .gloss, .grain { position: absolute; inset: 0; pointer-events: none; }
+.shade { background: #120c06; opacity: 0; transition: opacity .5s ease; }
+.book3d:not(.landed) .shade { opacity: 0 !important; }
+.gloss { background: linear-gradient(105deg, transparent 32%, rgba(255,255,255,.22) 46%, rgba(255,255,255,.05) 54%, transparent 64%) 50% 0 / 320% 100% no-repeat; mix-blend-mode: soft-light; opacity: 0; transition: opacity .6s ease; }
+.book3d.landed .gloss { opacity: 1; }
+.grain { background: var(--grain); background-size: 120px; opacity: .22; mix-blend-mode: multiply; }
 .face.front { width: 100%; height: 100%; background: var(--c) center / cover no-repeat; border-radius: 1px 3px 3px 1px; box-shadow: inset 4px 0 6px -2px rgba(0,0,0,.3); }
+/* the hinge: a soft groove a few millimetres in from the spine, as on a real hardcover */
+.face.front.hc::before { content: ""; position: absolute; top: 0; bottom: 0; left: 3.2%; width: 1.6%; background: linear-gradient(to right, rgba(0,0,0,.22), rgba(255,255,255,.14) 55%, transparent); pointer-events: none; z-index: 1; }
 .face.front.generated { display: flex; flex-direction: column; justify-content: space-between; padding: 12% 10%; color: var(--t); }
 .face.front.generated .gt { font: 600 1.7em/1.1 var(--serif); }
 .face.front.generated .ga { font: 500 1em/1.2 var(--sans); letter-spacing: .12em; text-transform: uppercase; opacity: .85; }
 .face.spine-face { height: 100%; overflow: hidden; }
 .face.spine-face .spine { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: none; transition: none; }
-.face.pages { height: 100%; background: repeating-linear-gradient(to right, #f6f2ea 0 2px, #e5dfd3 2px 3px); }
-.face.back { width: 100%; height: 100%; background: var(--c); filter: brightness(.85); }
-.face.edge { width: 100%; background: repeating-linear-gradient(to bottom, #f6f2ea 0 2px, #e5dfd3 2px 3px); }
-.book3d.landed .face.front { box-shadow: inset 4px 0 6px -2px rgba(0,0,0,.3), 0 30px 50px -20px rgba(40,30,20,.4), 0 8px 18px -8px rgba(40,30,20,.25); }
+/* page block: fine leaves, slightly rounded at the fore-edge, the boards showing as a thin band on hardcovers */
+.face.pages, .face.edge { --bd: 0px; }
+.book3d.hc .face.pages, .book3d.hc .face.edge { --bd: 2px; }
+.face.pages { height: 100%; background:
+  linear-gradient(to right, var(--c) 0 var(--bd), transparent var(--bd) calc(100% - var(--bd)), var(--c) 0),
+  linear-gradient(to right, rgba(0,0,0,.10), transparent 18%, transparent 82%, rgba(0,0,0,.10)),
+  repeating-linear-gradient(to right, #f7f3eb 0 1.4px, #e3dccf 1.4px 2px); }
+.face.edge { width: 100%; background:
+  linear-gradient(to bottom, var(--c) 0 var(--bd), transparent var(--bd) calc(100% - var(--bd)), var(--c) 0),
+  linear-gradient(to right, rgba(0,0,0,.14), transparent 6%),
+  repeating-linear-gradient(to bottom, #f7f3eb 0 1.4px, #e3dccf 1.4px 2px); }
+.face.back { width: 100%; height: 100%; background: var(--c); }
+.face.back .bk { position: absolute; inset: 14% 13% auto; color: var(--t); font: 400 1em/1.55 var(--serif); opacity: .88; }
+.face.back .bk-title { display: block; margin-bottom: .9em; font: 600 1.15em/1.2 var(--serif); }
+.face.back .bk-mark { position: absolute; left: 50%; bottom: 7%; width: 1.4em; height: 1.4em; transform: translateX(-50%); color: var(--t); opacity: .7; }
 
 .note { position: absolute; color: var(--ink); opacity: 0; transform: translateX(16px); transition: opacity .35s ease, transform .35s ease; }
 #stage.ready .note { opacity: 1; transform: none; }
@@ -287,5 +318,5 @@ body.panel-open { overflow: hidden; }
   .note-blurb { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  #library, .veil, .note, .spine { transition-duration: .01s; }
+  #library, .veil, .note, .spine, .ambient, .floor { transition-duration: .01s; }
 }

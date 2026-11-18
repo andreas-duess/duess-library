@@ -32,6 +32,7 @@ const MARKS = [
 
 const $ = (s) => document.querySelector(s);
 const shelves = $("#shelves"), stage = $("#stage"), book3d = $("#book3d"), note = $("#note"), tip = $("#tip");
+const ambient = $("#ambient"), floor = $("#floor"), hint = $("#hint");
 let books = [], open = null;
 
 function hash(s) {
@@ -411,41 +412,144 @@ function layout(b) {
   return { W, H, cx: vw / 2, cy: 32 + H / 2, note: { left: 20, width: vw - 40, top: 32 + H + 28 } };
 }
 
+// The resting angle once the book is off the shelf: turned so the spine and the foot of the page block show.
+const POSE = { x: 9, y: 26 };
+// Outward normal of each face in the book's own coordinates (CSS axes: y points down, z towards the viewer).
+const NORMALS = { front: [0, 0, 1], back: [0, 0, -1], spine: [-1, 0, 0], pages: [1, 0, 0], top: [0, -1, 0], foot: [0, 1, 0] };
+const LAMP = (() => { const v = [0.3, -0.5, 0.8], n = Math.hypot(...v); return v.map((c) => c / n); })(); // above, to the right, in front
+let tiltEl = null, faces = {};
+
 function buildBook(b, L, D, s0) {
   const { W, H } = L, sp = b.sp;
   book3d.style.width = `${W}px`;
   book3d.style.height = `${H}px`;
   book3d.style.setProperty("--c", sp.bg);
   book3d.style.setProperty("--t", sp.ink);
+  book3d.className = `book3d ${sp.type}`;
   book3d.innerHTML = "";
-  const face = (cls, css) => {
+  tiltEl = document.createElement("div");
+  tiltEl.className = "tilt3d";
+  book3d.append(tiltEl);
+  faces = {};
+  const face = (cls, css, name, extras = "") => {
     const f = document.createElement("div");
     f.className = `face ${cls}`;
     f.style.cssText = css;
-    book3d.append(f);
+    f.insertAdjacentHTML("beforeend", `${extras}<span class="shade"></span>`);
+    tiltEl.append(f);
+    faces[name] = f;
     return f;
   };
-  const front = face("front", `transform: translateZ(${D / 2}px)`);
+  const boards = sp.type === "pb" ? "" : '<span class="grain"></span>';
+  const front = face(`front ${sp.type}`, `transform: translateZ(${D / 2}px)`, "front", `${boards}<span class="gloss"></span>`);
   if (b.cover) front.style.backgroundImage = `url(/covers/${b.id}.jpg)`;
   else {
     front.classList.add("generated");
     front.style.fontSize = `${W / 16}px`;
-    front.innerHTML = `<div class="gt"></div><div class="ga"></div>`;
-    front.firstChild.textContent = b.title;
-    front.lastChild.textContent = b.author || "";
+    front.insertAdjacentHTML("afterbegin", `<div class="gt"></div><div class="ga"></div>`);
+    front.querySelector(".gt").textContent = b.title;
+    front.querySelector(".ga").textContent = b.author || "";
   }
-  face("back", `transform: rotateY(180deg) translateZ(${D / 2}px)`);
+  // the back cover carries the blurb, as a real one would
+  const back = face("back", `transform: rotateY(180deg) translateZ(${D / 2}px); font-size:${Math.max(8, W / 24)}px`, "back",
+    `<div class="bk"><span class="bk-title"></span><span class="bk-text"></span></div><span class="bk-mark">${sp.mark}</span>${boards}<span class="gloss"></span>`);
+  back.querySelector(".bk-title").textContent = b.title;
+  back.querySelector(".bk-text").textContent = b.blurb || "";
   // the spine face is a scaled copy of the spine on the shelf, so the first frame matches it exactly
-  const spineFace = face("spine-face", `width:${D}px; left:${(W - D) / 2}px; transform: rotateY(-90deg) translateZ(${W / 2}px)`);
+  const spineFace = face("spine-face", `width:${D}px; left:${(W - D) / 2}px; transform: rotateY(-90deg) translateZ(${W / 2}px)`, "spine");
   const clone = b.spineEl.cloneNode(true);
   clone.removeAttribute("id");
   clone.tabIndex = -1;
   clone.style.transform = `scale(${1 / s0})`;
-  spineFace.append(clone);
-  face("pages", `width:${D}px; left:${(W - D) / 2}px; transform: rotateY(90deg) translateZ(${W / 2 - 2}px)`);
-  face("edge", `height:${D}px; top:${(H - D) / 2}px; transform: rotateX(90deg) translateZ(${H / 2 - 2}px)`);
-  face("edge", `height:${D}px; top:${(H - D) / 2}px; transform: rotateX(-90deg) translateZ(${H / 2 - 2}px)`);
+  spineFace.prepend(clone);
+  face("pages", `width:${D}px; left:${(W - D) / 2}px; transform: rotateY(90deg) translateZ(${W / 2 - 2}px)`, "pages");
+  face("edge", `height:${D}px; top:${(H - D) / 2}px; transform: rotateX(90deg) translateZ(${H / 2 - 2}px)`, "top");
+  face("edge", `height:${D}px; top:${(H - D) / 2}px; transform: rotateX(-90deg) translateZ(${H / 2 - 2}px)`, "foot");
 }
+
+// --- the book in the hand: drift, follow the pointer, turn by dragging, light that moves with it ---
+const motion = { cur: { x: 0, y: 0 }, tgt: { x: 0, y: 0 }, amp: 0, ampTgt: 0, drag: null, raf: 0, t0: 0, L: null };
+const calm = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// rotate a vector by rotateX(ax) rotateY(ay), applied the way CSS applies them (Y first, then X)
+function turn([x, y, z], ax, ay) {
+  const a = (ay * Math.PI) / 180, b = (ax * Math.PI) / 180;
+  const x1 = x * Math.cos(a) + z * Math.sin(a), z1 = -x * Math.sin(a) + z * Math.cos(a);
+  return [x1, y * Math.cos(b) - z1 * Math.sin(b), y * Math.sin(b) + z1 * Math.cos(b)];
+}
+
+function frame(now) {
+  const m = motion;
+  const t = (now - m.t0) / 1000;
+  if (!m.drag) {
+    m.cur.x += (m.tgt.x - m.cur.x) * 0.07;
+    m.cur.y += (m.tgt.y - m.cur.y) * 0.07;
+  }
+  m.amp += (m.ampTgt - m.amp) * 0.05;
+  const bob = Math.sin(t * 0.9) * 6 * m.amp;
+  const ix = m.cur.x + Math.cos(t * 0.5) * 1.1 * m.amp, iy = m.cur.y + Math.sin(t * 0.6) * 1.8 * m.amp;
+  tiltEl.style.transform = `translateY(${bob}px) rotateX(${ix}deg) rotateY(${iy}deg)`;
+
+  // light: inner turn first, then the resting pose
+  for (const [name, f] of Object.entries(faces)) {
+    const n = turn(turn(NORMALS[name], ix, iy), POSE.x, POSE.y);
+    const lit = n[0] * LAMP[0] + n[1] * LAMP[1] + n[2] * LAMP[2];
+    f.lastElementChild.style.opacity = Math.min(0.55, Math.max(0, 0.5 - lit * 0.6)).toFixed(3);
+  }
+  const sheen = `${50 - (iy % 360) * 1.6}% 0`;
+  for (const g of book3d.querySelectorAll(".gloss")) g.style.backgroundPosition = sheen;
+
+  // the shadow on the floor grows softer and smaller as the book rises
+  if (m.L) floor.style.transform = `scale(${1 - bob * 0.012}, ${1 - bob * 0.02})`;
+  floor.style.opacity = stage.classList.contains("ready") ? (0.9 + bob * 0.02).toFixed(3) : "";
+  m.raf = requestAnimationFrame(frame);
+}
+
+function startMotion() {
+  Object.assign(motion, { cur: { x: 0, y: 0 }, tgt: { x: 0, y: 0 }, amp: 0, ampTgt: 0, drag: null, t0: performance.now() });
+  cancelAnimationFrame(motion.raf);
+  motion.raf = requestAnimationFrame(frame);
+}
+function stopMotion() { cancelAnimationFrame(motion.raf); motion.raf = 0; }
+
+function placeFloor(L) {
+  motion.L = L;
+  const w = L.W * 1.15, h = Math.max(28, L.W * 0.16);
+  floor.style.cssText = `left:${L.cx - w / 2 + L.W * 0.06}px; top:${L.cy + L.H / 2 + L.H * 0.05}px; width:${w}px; height:${h}px`;
+  hint.style.left = `${L.cx}px`;
+  hint.style.top = `${Math.min(innerHeight - 28, L.cy + L.H / 2 + L.H * 0.05 + h + 14)}px`;
+  hint.hidden = innerWidth < 760; // on a phone the note sits below; the hint would collide with it
+}
+
+stage.addEventListener("pointermove", (e) => {
+  if (!open || open.closing || motion.drag || calm() || e.pointerType !== "mouse") return;
+  motion.tgt.x = (0.5 - e.clientY / innerHeight) * 10;
+  motion.tgt.y = (e.clientX / innerWidth - 0.5) * 18;
+});
+stage.addEventListener("pointerleave", () => { motion.tgt.x = motion.tgt.y = 0; });
+book3d.addEventListener("pointerdown", (e) => {
+  if (!book3d.classList.contains("landed")) return;
+  e.preventDefault();
+  motion.drag = { x: e.clientX, y: e.clientY, cx: motion.cur.x, cy: motion.cur.y, id: e.pointerId };
+  book3d.setPointerCapture(e.pointerId);
+  book3d.classList.add("dragging");
+  stage.classList.add("turned");
+});
+book3d.addEventListener("pointermove", (e) => {
+  const d = motion.drag;
+  if (!d || e.pointerId !== d.id) return;
+  motion.cur.y = d.cy + (e.clientX - d.x) * 0.55;
+  motion.cur.x = Math.max(-35, Math.min(35, d.cx - (e.clientY - d.y) * 0.3));
+});
+const endDrag = (e) => {
+  if (!motion.drag || e.pointerId !== motion.drag.id) return;
+  motion.drag = null;
+  book3d.classList.remove("dragging");
+  // spring back to the resting angle the short way round, after any number of turns
+  motion.cur.y = ((((motion.cur.y - motion.tgt.y) % 360) + 540) % 360) - 180 + motion.tgt.y;
+};
+book3d.addEventListener("pointerup", endDrag);
+book3d.addEventListener("pointercancel", endDrag);
 
 function makeAnimation(b) {
   const L = layout(b);
@@ -456,15 +560,16 @@ function makeAnimation(b) {
   const D = (b.flat ? oh : ow) / s0;
   const rz = b.flat ? -90 : b.el.classList.contains("tilt") ? parseFloat(b.el.style.getPropertyValue("--rot")) : 0;
   buildBook(b, L, D, s0);
-  const T = (cx, cy, s, rotY, z, rotZ) =>
-    `translate3d(${cx - L.W / 2}px, ${cy - L.H / 2}px, ${z}px) scale3d(${s}, ${s}, ${s}) rotateZ(${rotZ}deg) rotateY(${rotY}deg)`;
+  const T = (cx, cy, s, rotY, z, rotZ, rotX = 0) =>
+    `translate3d(${cx - L.W / 2}px, ${cy - L.H / 2}px, ${z}px) scale3d(${s}, ${s}, ${s}) rotateZ(${rotZ}deg) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
   const x0 = r.left + r.width / 2, y0 = r.top + r.height / 2;
   const anim = book3d.animate([
     { transform: T(x0, y0, s0, 90, (-L.W * s0) / 2, rz), easing: "cubic-bezier(.2,.6,.3,1)" },
     { transform: T(x0, y0 - 6, s0 * 1.04, 90, (-L.W * s0) / 2 + 140, rz), offset: 0.28, easing: "cubic-bezier(.45,0,.2,1)" },
-    { transform: T(L.cx, L.cy, 1, 0, -D / 2, 0) },
-  ], { duration: matchMedia("(prefers-reduced-motion: reduce)").matches ? 1 : 1000, fill: "both" });
+    { transform: T(L.cx, L.cy, 1, POSE.y, -D / 2, 0, POSE.x) },
+  ], { duration: calm() ? 1 : 1100, fill: "both" });
   placeNote(L);
+  placeFloor(L);
   return anim;
 }
 
@@ -489,8 +594,10 @@ function openBook(b) {
   if (open) return;
   fillNote(b);
   stage.hidden = false;
-  book3d.classList.remove("landed");
+  stage.classList.remove("turned");
+  ambient.style.setProperty("--amb", b.cover ? `url(/covers/${b.id}.jpg)` : b.sp.bg);
   const anim = makeAnimation(b);
+  startMotion();
   open = { b, anim };
   b.el.classList.add("out");
   b.spineEl.classList.add("out");
@@ -500,6 +607,7 @@ function openBook(b) {
     if (open?.anim !== anim || anim.playbackRate < 0) return;
     book3d.classList.add("landed");
     stage.classList.add("ready");
+    if (!calm()) motion.ampTgt = 1;
     $("#close").focus({ preventScroll: true });
   };
 }
@@ -508,9 +616,15 @@ function closeBook() {
   if (!open || open.closing) return;
   const { b, anim } = open;
   open.closing = true;
-  book3d.classList.remove("landed");
+  book3d.classList.remove("landed", "dragging");
   stage.classList.remove("ready");
+  // let go of any turn so the book goes back spine-out
+  motion.drag = null;
+  motion.tgt = { x: 0, y: 0 };
+  motion.cur.y = ((motion.cur.y % 360) + 540) % 360 - 180;
+  motion.ampTgt = 0;
   anim.onfinish = () => {
+    stopMotion();
     b.el.classList.remove("out");
     b.spineEl.classList.remove("out");
     stage.hidden = true;
@@ -526,7 +640,7 @@ function closeBook() {
 }
 
 $("#close").addEventListener("click", closeBook);
-stage.addEventListener("click", (e) => { if (e.target.classList.contains("veil")) closeBook(); });
+stage.addEventListener("click", (e) => { if (e.target.closest(".veil")) closeBook(); });
 addEventListener("keydown", (e) => {
   if (e.key !== "Escape") return;
   if (!recommend.hidden) closeRecommend();
